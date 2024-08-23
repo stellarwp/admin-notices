@@ -1,0 +1,20 @@
+{
+    "name": "stellarwp/adminnotices",
+    "description": "A handy package for easily displaying admin notices in WordPress with simple to complex visibility conditions",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jason Adams",
+            "email": "jason.adams@stellarwp.com"
+        }
+    ],
+    "require": {
+      "psr/container": "^2.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "StellarWP\\AdminNotices\\": "src/"
+        }
+    }
+}
