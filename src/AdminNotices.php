@@ -6,6 +6,7 @@ namespace StellarWP\AdminNotice;
 
 use Psr\Container\ContainerInterface;
 use RuntimeException;
+use StellarWP\AdminNotice\Actions\DisplayNoticesInAdmin;
 use StellarWP\AdminNotice\Contracts\NotificationsRegisterInterface;
 
 class AdminNotices
@@ -52,6 +53,18 @@ class AdminNotices
     }
 
     /**
+     * Initializes the package. Required to be called to display the notices.
+     *
+     * This should be called at the beginning of the plugin file along with other configuration.
+     *
+     * @unreleased
+     */
+    public function initialize(): void
+    {
+        add_action('admin_notices', [self::class, 'setUpNotices']);
+    }
+
+    /**
      * Returns the notices stored in the register
      *
      * @unreleased
@@ -61,6 +74,16 @@ class AdminNotices
     public static function getNotices(): array
     {
         return self::getRegister()->getNotices();
+    }
+
+    /**
+     * Hook action to display the notices in the admin
+     *
+     * @unreleased
+     */
+    public static function setUpNotices(): void
+    {
+        (new DisplayNoticesInAdmin())();
     }
 
     /**

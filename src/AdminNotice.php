@@ -41,14 +41,14 @@ class AdminNotice
     protected $whenCallback;
 
     /**
-     * @var array
+     * @var ScreenCondition[]
      */
     protected $onConditions;
 
     /**
      * @var bool
      */
-    protected $autoParagraph = true;
+    protected $autoParagraph = false;
 
     /**
      * @var NoticeUrgency
@@ -286,11 +286,25 @@ class AdminNotice
     }
 
     /**
+     * Returns the rendered content of the notice, either by returning the string or executing the callback
+     *
+     * @unreleased
+     */
+    public function getRenderedContent(): string
+    {
+        $render = $this->renderTextOrCallback;
+
+        $content = is_callable($render) ? $render() : $render;
+
+        return $this->autoParagraph ? wpautop($content) : $content;
+    }
+
+    /**
      * Returns the user capabilities
      *
      * @unreleased
      */
-    public function getUserCapabilities(): array
+    public function getUserCapabilities(): ?array
     {
         return $this->userCapabilities;
     }
@@ -300,7 +314,7 @@ class AdminNotice
      *
      * @unreleased
      */
-    public function getAfterDate(): DateTimeInterface
+    public function getAfterDate(): ?DateTimeInterface
     {
         return $this->afterDate;
     }
@@ -310,7 +324,7 @@ class AdminNotice
      *
      * @unreleased
      */
-    public function getUntilDate(): DateTimeInterface
+    public function getUntilDate(): ?DateTimeInterface
     {
         return $this->untilDate;
     }
@@ -320,7 +334,7 @@ class AdminNotice
      *
      * @unreleased
      */
-    public function getWhenCallback(): callable
+    public function getWhenCallback(): ?callable
     {
         return $this->whenCallback;
     }
@@ -329,8 +343,10 @@ class AdminNotice
      * Returns the screen conditions used to determine if the notice should be displayed
      *
      * @unreleased
+     *
+     * @return ScreenCondition[]
      */
-    public function getOnConditions(): array
+    public function getOnConditions(): ?array
     {
         return $this->onConditions;
     }
@@ -340,7 +356,7 @@ class AdminNotice
      *
      * @unreleased
      */
-    public function isAutoParagraph(): bool
+    public function shouldAutoParagraph(): bool
     {
         return $this->autoParagraph;
     }
@@ -360,7 +376,7 @@ class AdminNotice
      *
      * @unreleased
      */
-    public function isWithContainer(): bool
+    public function usesContainer(): bool
     {
         return $this->withContainer;
     }
