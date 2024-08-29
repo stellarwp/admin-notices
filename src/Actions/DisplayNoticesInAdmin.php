@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 
-namespace StellarWP\AdminNotice\Actions;
+namespace StellarWP\AdminNotices\Actions;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use StellarWP\AdminNotice\AdminNotice;
+use StellarWP\AdminNotices\AdminNotice;
 
 /**
  * Displays the provided notices in the admin based on the conditions set in the notice.
@@ -100,14 +100,8 @@ class DisplayNoticesInAdmin
         }
 
         foreach ($capabilities as $capability) {
-            if (is_string($capability)) {
-                if (current_user_can($capability)) {
-                    return true;
-                }
-            } else {
-                if (current_user_can(...$capability)) {
-                    return true;
-                }
+            if (current_user_can(...$capability)) {
+                return true;
             }
         }
 

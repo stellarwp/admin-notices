@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 
-namespace StellarWP\AdminNotice\Actions;
+namespace StellarWP\AdminNotices\Actions;
 
-use StellarWP\AdminNotice\AdminNotice;
+use StellarWP\AdminNotices\AdminNotice;
 
 /**
  * Renders the admin notice based on the configuration of the notice.

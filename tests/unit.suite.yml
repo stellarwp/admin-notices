@@ -16,5 +16,5 @@ modules:
             dbPassword: "%WP_TEST_DB_PASSWORD%"
             tablePrefix: "%WP_TABLE_PREFIX%"
             domain: "%WP_DOMAIN%"
-            title: stellarwp/field-conditions tests
+            title: stellarwp/admin-notices tests
             configFile: tests/config.php

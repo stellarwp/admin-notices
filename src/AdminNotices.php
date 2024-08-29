@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace StellarWP\AdminNotice;
+namespace StellarWP\AdminNotices;
 
 use Psr\Container\ContainerInterface;
 use RuntimeException;
-use StellarWP\AdminNotice\Actions\DisplayNoticesInAdmin;
-use StellarWP\AdminNotice\Contracts\NotificationsRegistrarInterface;
+use StellarWP\AdminNotices\Actions\DisplayNoticesInAdmin;
+use StellarWP\AdminNotices\Contracts\NotificationsRegistrarInterface;
 
 class AdminNotices
 {

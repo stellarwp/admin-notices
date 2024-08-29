@@ -1,5 +1,6 @@
 {
-    "name": "stellarwp/adminnotices",
+    "name": "stellarwp/admin-notices",
+    "version": "1.0.0",
     "description": "A handy package for easily displaying admin notices in WordPress with simple to complex visibility conditions",
     "minimum-stability": "stable",
     "license": "MIT",
@@ -28,6 +29,11 @@
     "autoload": {
         "psr-4": {
             "StellarWP\\AdminNotices\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "StellarWP\\AdminNotices\\Tests\\": "tests/_support/Helper"
         }
     },
     "scripts": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace StellarWP\AdminNotice\ValueObjects;
+namespace StellarWP\AdminNotices\ValueObjects;
 
 use InvalidArgumentException;
 
@@ -25,10 +25,7 @@ class ScreenCondition
         $this->condition = $condition;
 
         // check if condition is a string with a regex using ~ as the delimiter
-        if (is_string($condition)
-            && strpos($condition, '~') === 0 && strrpos($condition, '~') === strlen($condition) - 1) {
-            $this->isRegex = true;
-        }
+        $this->isRegex = is_string($condition) && preg_match('/^~.+~[a-z]*$/', $condition) === 1;
     }
 
     public function getCondition()

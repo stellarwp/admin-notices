@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace StellarWP\AdminNotice;
+namespace StellarWP\AdminNotices;
 
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
-use StellarWP\AdminNotice\ValueObjects\NoticeUrgency;
-use StellarWP\AdminNotice\ValueObjects\ScreenCondition;
+use StellarWP\AdminNotices\ValueObjects\NoticeUrgency;
+use StellarWP\AdminNotices\ValueObjects\ScreenCondition;
 
 class AdminNotice
 {
@@ -98,7 +98,7 @@ class AdminNotice
             } elseif (is_array($capability) && (count($capability) === 2 || count($capability) === 3) && is_string(
                     $capability[0]
                 )) {
-                $this->userCapabilities = $capability;
+                $this->userCapabilities[] = $capability;
             } else {
                 throw new InvalidArgumentException(
                     'Invalid capability type. Must be string or array of arguments compatible with current_user_can()'

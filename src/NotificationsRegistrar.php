@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 
-namespace StellarWP\AdminNotice;
+namespace StellarWP\AdminNotices;
 
-use StellarWP\AdminNotice\Contracts\NotificationsRegistrarInterface;
-use StellarWP\AdminNotice\Exceptions\NotificationCollisionException;
+use StellarWP\AdminNotices\Contracts\NotificationsRegistrarInterface;
+use StellarWP\AdminNotices\Exceptions\NotificationCollisionException;
 
 class NotificationsRegistrar implements NotificationsRegistrarInterface
 {

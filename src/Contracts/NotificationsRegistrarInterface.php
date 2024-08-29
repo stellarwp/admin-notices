@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace StellarWP\AdminNotice\Contracts;
+namespace StellarWP\AdminNotices\Contracts;
 
-use StellarWP\AdminNotice\AdminNotice;
-use StellarWP\AdminNotice\Exceptions\NotificationCollisionException;
+use StellarWP\AdminNotices\AdminNotice;
+use StellarWP\AdminNotices\Exceptions\NotificationCollisionException;
 
 interface NotificationsRegistrarInterface
 {

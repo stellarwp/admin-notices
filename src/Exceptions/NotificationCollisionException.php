@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 
-namespace StellarWP\AdminNotice\Exceptions;
+namespace StellarWP\AdminNotices\Exceptions;
 
 use RuntimeException;
-use StellarWP\AdminNotice\AdminNotice;
+use StellarWP\AdminNotices\AdminNotice;
 
 class NotificationCollisionException extends RuntimeException
 {
