@@ -26,11 +26,15 @@ class RenderAdminNotice
 
     public function __invoke(): string
     {
-        if (!$this->notice->usesContainer()) {
+        if (!$this->notice->usesWrapper()) {
             return $this->notice->getRenderedContent();
         }
 
-        return "<div class='{$this->getWrapperClasses()}'>{$this->notice->getRenderedContent()}</div>";
+        return sprintf(
+            "<div class='%s'>%s</div>",
+            esc_attr($this->getWrapperClasses()),
+            $this->notice->getRenderedContent()
+        );
     }
 
     /**

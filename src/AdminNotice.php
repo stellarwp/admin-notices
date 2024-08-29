@@ -6,6 +6,7 @@ namespace StellarWP\AdminNotice;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
 use StellarWP\AdminNotice\ValueObjects\NoticeUrgency;
@@ -58,7 +59,7 @@ class AdminNotice
     /**
      * @var bool
      */
-    protected $withContainer = true;
+    protected $withWrapper = true;
 
     protected $dismissible = true;
 
@@ -113,14 +114,14 @@ class AdminNotice
      *
      * @unreleased
      *
-     * @param $date DateTimeInterface|string
+     * @param $date DateTimeInterface|string|int if a string then it will be considered UTC
      *
      * @return $this
      * @throws Exception If the date is not a valid DateTimeInterface or string
      */
     public function after($date): self
     {
-        $this->afterDate = $date instanceof DateTimeInterface ? $date : new DateTimeImmutable($date);
+        $this->afterDate = $this->parseDate($date);
 
         return $this;
     }
@@ -130,13 +131,13 @@ class AdminNotice
      *
      * @unreleased
      *
-     * @param $date DateTimeInterface|string
+     * @param $date DateTimeInterface|string|int if a string then it will be considered UTC
      *
      * @throws Exception If the date is not a valid DateTimeInterface or string
      */
     public function until($date): self
     {
-        $this->untilDate = $date instanceof DateTimeInterface ? $date : new DateTimeImmutable($date);
+        $this->untilDate = $this->parseDate($date);
 
         return $this;
     }
@@ -144,8 +145,8 @@ class AdminNotice
     /**
      * Limits the notice to a specific date range
      *
-     * @param $after DateTimeInterface|string
-     * @param $until DateTimeInterface|string
+     * @param $after DateTimeInterface|string if a string then it will be considered UTC
+     * @param $until DateTimeInterface|string if a string then it will be considered UTC
      *
      * @throws Exception If the date is not a valid DateTimeInterface or string
      */
@@ -171,18 +172,15 @@ class AdminNotice
      *
      * @unreleased
      *
-     * @param array|string $on
+     * @param array|string|ScreenCondition $on
      */
-    public function on($on): self
+    public function on(...$on): self
     {
-        // if $on is an array of conditions, create a ScreenCondition for each
-        if (is_array($on) && array_keys($on) === range(0, count($on) - 1)) {
-            foreach ($on as $condition) {
-                $this->onConditions[] = new ScreenCondition($condition);
-            }
+        foreach ($on as $condition) {
+            $this->onConditions[] = $condition instanceof ScreenCondition ? $condition : new ScreenCondition(
+                $condition
+            );
         }
-
-        $this->onConditions[] = new ScreenCondition($on);
 
         return $this;
     }
@@ -212,7 +210,7 @@ class AdminNotice
     }
 
     /**
-     * Sets the urgency of the notice, used when the notice is displayed in the standard container
+     * Sets the urgency of the notice, used when the notice is displayed in the standard wrapper
      *
      * @unreleased
      *
@@ -226,31 +224,31 @@ class AdminNotice
     }
 
     /**
-     * Sets the notice to display without the standard WordPress container
+     * Sets the notice to display without the standard WordPress wrapper
      *
      * @unreleased
      */
-    public function withContainer(bool $withContainer = true): self
+    public function withWrapper(bool $withWrapper = true): self
     {
-        $this->withContainer = $withContainer;
+        $this->withWrapper = $withWrapper;
 
         return $this;
     }
 
     /**
-     * Sets the notice to display without the standard WordPress container
+     * Sets the notice to display without the standard WordPress wrapper
      *
      * @unreleased
      */
-    public function withoutContainer(): self
+    public function withoutWrapper(): self
     {
-        $this->withContainer = false;
+        $this->withWrapper = false;
 
         return $this;
     }
 
     /**
-     * Sets the notice to be dismissible, usable when the notice is displayed in the standard container
+     * Sets the notice to be dismissible, usable when the notice is displayed in the standard wrapper
      *
      * @unreleased
      */
@@ -262,7 +260,7 @@ class AdminNotice
     }
 
     /**
-     * Sets the notice to be not dismissible, usable when the notice is displayed in the standard container
+     * Sets the notice to be not dismissible, usable when the notice is displayed in the standard wrapper
      *
      * @unreleased
      */
@@ -372,13 +370,13 @@ class AdminNotice
     }
 
     /**
-     * Returns whether the notice should be displayed with the standard WordPress container
+     * Returns whether the notice should be displayed with the standard WordPress wrapper
      *
      * @unreleased
      */
-    public function usesContainer(): bool
+    public function usesWrapper(): bool
     {
-        return $this->withContainer;
+        return $this->withWrapper;
     }
 
     /**
@@ -389,5 +387,26 @@ class AdminNotice
     public function isDismissible(): bool
     {
         return $this->dismissible;
+    }
+
+    /**
+     * Parses the date into a DateTimeInterface for the date methods
+     *
+     * @unreleased
+     *
+     * @param $date DateTimeInterface|string|int if a string then it will be considered UTC
+     *
+     * @throws Exception
+     */
+    private function parseDate($date): DateTimeInterface
+    {
+        if (is_int($date)) {
+            $date = '@' . $date;
+        }
+
+        return $date instanceof DateTimeInterface ? $date : new DateTimeImmutable(
+            $date,
+            new DateTimeZone('UTC')
+        );
     }
 }

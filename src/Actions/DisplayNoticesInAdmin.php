@@ -6,39 +6,57 @@ declare(strict_types=1);
 namespace StellarWP\AdminNotice\Actions;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use StellarWP\AdminNotice\AdminNotice;
-use StellarWP\AdminNotice\AdminNotices;
 
+/**
+ * Displays the provided notices in the admin based on the conditions set in the notice.
+ *
+ * @unreleased
+ */
 class DisplayNoticesInAdmin
 {
-    public function __invoke()
+    /**
+     * @unreleased
+     */
+    public function __invoke(AdminNotice ...$notices)
     {
-        $notices = AdminNotices::getNotices();
-
         if (empty($notices)) {
             return;
         }
 
         foreach ($notices as $notice) {
-            if ($this->passesDateLimits($notice)
-                && $this->passesWhenCallback($notice)
-                && $this->passesUserCapabilities($notice)
-                && $this->passesScreenConditions($notice)
-            ) {
+            if ($this->shouldDisplayNotice($notice)) {
                 echo (new RenderAdminNotice($notice))();
             }
         }
     }
 
-    private function shouldDisplayNotice(AdminNotice $notice): bool {}
+    /**
+     * Checks whether the notice should be displayed based on the provided conditions.
+     *
+     * @unreleased
+     */
+    private function shouldDisplayNotice(AdminNotice $notice): bool
+    {
+        return $this->passesDateLimits($notice)
+               && $this->passesWhenCallback($notice)
+               && $this->passesUserCapabilities($notice)
+               && $this->passesScreenConditions($notice);
+    }
 
+    /**
+     * Checks whether the notice should be displayed based on the provided date limits.
+     *
+     * @unreleased
+     */
     private function passesDateLimits(AdminNotice $notice): bool
     {
         if (!$notice->getAfterDate() && !$notice->getUntilDate()) {
             return true;
         }
 
-        $now = new DateTimeImmutable();
+        $now = new DateTimeImmutable('now', new DateTimeZone('UTC'));
 
         if ($notice->getAfterDate() && $notice->getAfterDate() > $now) {
             return false;
@@ -51,6 +69,11 @@ class DisplayNoticesInAdmin
         return true;
     }
 
+    /**
+     * Checks whether the notice should be displayed based on the provided callback.
+     *
+     * @unreleased
+     */
     private function passesWhenCallback(AdminNotice $notice): bool
     {
         $callback = $notice->getWhenCallback();
@@ -62,6 +85,12 @@ class DisplayNoticesInAdmin
         return $callback();
     }
 
+    /**
+     * Checks whether user limits were provided and they pass. Only one capability is required to pass, allowing for
+     * multiple users have visibility.
+     *
+     * @unreleased
+     */
     private function passesUserCapabilities(AdminNotice $notice): bool
     {
         $capabilities = $notice->getUserCapabilities();
@@ -72,19 +101,25 @@ class DisplayNoticesInAdmin
 
         foreach ($capabilities as $capability) {
             if (is_string($capability)) {
-                if (!current_user_can($capability)) {
-                    return false;
+                if (current_user_can($capability)) {
+                    return true;
                 }
             } else {
-                if (call_user_func_array('current_user_can', $capability) === false) {
-                    return false;
+                if (current_user_can(...$capability)) {
+                    return true;
                 }
             }
         }
 
-        return true;
+        return false;
     }
 
+    /**
+     * Checks whether the notice is limited to specific screens and the current screen matches the conditions. Only one
+     * screen condition is required to pass, allowing for the notice to appear on multiple screens.
+     *
+     * @unreleased
+     */
     private function passesScreenConditions(AdminNotice $notice): bool
     {
         $screen = get_current_screen();
@@ -101,24 +136,24 @@ class DisplayNoticesInAdmin
 
             if ($screenCondition->isRegex()) {
                 // do a regex comparison on the current url
-                if (!preg_match($condition, $currentUrl)) {
-                    return false;
+                if (preg_match($condition, $currentUrl) === 1) {
+                    return true;
                 }
             } elseif (is_string($condition)) {
                 // do a string comparison on the current url
-                if (!str_contains($currentUrl, $condition)) {
-                    return false;
+                if (str_contains($currentUrl, $condition)) {
+                    return true;
                 }
             } else {
                 // compare the condition array against the WP_Screen object
                 foreach ($condition as $property => $value) {
-                    if ($screen->$property !== $value) {
-                        return false;
+                    if ($screen->$property === $value) {
+                        return true;
                     }
                 }
             }
         }
 
-        return true;
+        return false;
     }
 }

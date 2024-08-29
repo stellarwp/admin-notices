@@ -7,7 +7,7 @@ namespace StellarWP\AdminNotice\Contracts;
 use StellarWP\AdminNotice\AdminNotice;
 use StellarWP\AdminNotice\Exceptions\NotificationCollisionException;
 
-interface NotificationsRegisterInterface
+interface NotificationsRegistrarInterface
 {
     /**
      * Adds a notice to the register and throws a NotificationCollisionException if a notice with the same ID already exists.

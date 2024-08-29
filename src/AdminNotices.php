@@ -7,7 +7,7 @@ namespace StellarWP\AdminNotice;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 use StellarWP\AdminNotice\Actions\DisplayNoticesInAdmin;
-use StellarWP\AdminNotice\Contracts\NotificationsRegisterInterface;
+use StellarWP\AdminNotice\Contracts\NotificationsRegistrarInterface;
 
 class AdminNotices
 {
@@ -15,6 +15,16 @@ class AdminNotices
      * @var ContainerInterface
      */
     protected static $container;
+
+    /**
+     * @var NotificationsRegistrarInterface
+     */
+    protected static $registrar;
+
+    /**
+     * @var string used in actions, filters, and data storage
+     */
+    protected static $prefix = '';
 
     /**
      * Registers a notice to be conditionally displayed in the admin
@@ -27,7 +37,7 @@ class AdminNotices
     {
         $notice = new AdminNotice($render);
 
-        self::getRegister()->registerNotice($notificationId, $notice);
+        self::getRegistrar()->registerNotice($notificationId, $notice);
 
         return $notice;
     }
@@ -39,7 +49,7 @@ class AdminNotices
      */
     public static function removeNotice(string $notificationId): void
     {
-        self::getRegister()->unregisterNotice($notificationId);
+        self::getRegistrar()->unregisterNotice($notificationId);
     }
 
     /**
@@ -73,7 +83,7 @@ class AdminNotices
      */
     public static function getNotices(): array
     {
-        return self::getRegister()->getNotices();
+        return self::getRegistrar()->getNotices();
     }
 
     /**
@@ -83,32 +93,30 @@ class AdminNotices
      */
     public static function setUpNotices(): void
     {
-        (new DisplayNoticesInAdmin())();
+        (new DisplayNoticesInAdmin())(...self::getNotices());
     }
 
     /**
-     * Returns the register instance, from the container if available, otherwise a locally stored instance
+     * Returns the registrar instance, from the container if available, otherwise a locally stored instance
      *
      * @unreleased
      */
-    private static function getRegister(): NotificationsRegisterInterface
+    private static function getRegistrar(): NotificationsRegistrarInterface
     {
-        static $register = null;
-
-        if ($register !== null) {
-            return $register;
+        if (self::$registrar !== null) {
+            return self::$registrar;
         }
 
-        if (self::$container && !self::$container->has(NotificationsRegisterInterface::class)) {
-            throw new RuntimeException('NotificationsRegisterInterface not found in container');
+        if (self::$container && !self::$container->has(NotificationsRegistrarInterface::class)) {
+            throw new RuntimeException('NotificationsRegistrarInterface not found in container');
         }
 
         if (self::$container) {
-            $register = self::$container->get(NotificationsRegisterInterface::class);
+            self::$registrar = self::$container->get(NotificationsRegistrarInterface::class);
         } else {
-            $register = new NotificationsRegister();
+            self::$registrar = new NotificationsRegistrar();
         }
 
-        return $register;
+        return self::$registrar;
     }
 }

@@ -5,10 +5,10 @@ declare(strict_types=1);
 
 namespace StellarWP\AdminNotice;
 
-use StellarWP\AdminNotice\Contracts\NotificationsRegisterInterface;
+use StellarWP\AdminNotice\Contracts\NotificationsRegistrarInterface;
 use StellarWP\AdminNotice\Exceptions\NotificationCollisionException;
 
-class NotificationsRegister implements NotificationsRegisterInterface
+class NotificationsRegistrar implements NotificationsRegistrarInterface
 {
     protected $notices = [];
 
