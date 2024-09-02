@@ -10,6 +10,7 @@ use StellarWP\AdminNotices\AdminNotice;
 use StellarWP\AdminNotices\Tests\TestCase;
 use StellarWP\AdminNotices\ValueObjects\NoticeUrgency;
 use StellarWP\AdminNotices\ValueObjects\ScreenCondition;
+use StellarWP\AdminNotices\ValueObjects\UserCapability;
 
 /**
  * @coversDefaultClass \StellarWP\AdminNotices\AdminNotice
@@ -37,7 +38,12 @@ class AdminNoticeTest extends TestCase
         $notice = new AdminNotice('test');
         $self = $notice->ifUserCan('test', ['test', 1], ['test', 2, 3]);
 
-        $this->assertSame([['test'], ['test', 1], ['test', 2, 3]], $notice->getUserCapabilities());
+        $this->assertCount(3, $notice->getUserCapabilities());
+        $this->assertContainsOnlyInstancesOf(UserCapability::class, $notice->getUserCapabilities());
+        $this->assertEquals(
+            [new UserCapability('test'), new UserCapability('test', [1]), new UserCapability('test', [2, 3])],
+            $notice->getUserCapabilities()
+        );
         $this->assertSame($notice, $self);
     }
 
@@ -51,6 +57,18 @@ class AdminNoticeTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $notice = new AdminNotice('test');
         $notice->ifUserCan(1);
+    }
+
+    /**
+     * @covers ::ifUserCan
+     *
+     * @unreleased
+     */
+    public function testIfUserCanShouldThrowExceptionWhenCapabilityArrayIsMisshaped(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $notice = new AdminNotice('test');
+        $notice->ifUserCan([]);
     }
 
     /**
@@ -227,14 +245,74 @@ class AdminNoticeTest extends TestCase
     }
 
     /**
-     * @covers ::ifUserCan
+     * @covers ::dismissible
+     * @covers ::notDismissible
+     * @covers ::isDismissible
      *
      * @unreleased
      */
-    public function testIfUserCanShouldThrowExceptionWhenCapabilityArrayIsMisshaped(): void
+    public function testDismissible(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        // Defaults to true
         $notice = new AdminNotice('test');
-        $notice->ifUserCan([]);
+        $this->assertTrue($notice->isDismissible());
+
+        // Method defaults to true
+        $self = $notice->dismissible();
+        $this->assertTrue($notice->isDismissible());
+        $this->assertSame($notice, $self);
+
+        // Method can be explicitly set to false
+        $notice->dismissible(false);
+        $this->assertFalse($notice->isDismissible());
+
+        // Method can be set to true
+        $notice->dismissible(true);
+        $this->assertTrue($notice->isDismissible());
+
+        // notDismissible is an alias for dismissible(false)
+        $self = $notice->notDismissible();
+        $this->assertFalse($notice->isDismissible());
+        $this->assertSame($notice, $self);
+    }
+
+    /**
+     * @covers ::getRenderTextOrCallback
+     *
+     * @unreleased
+     */
+    public function testGetRenderTextOrCallback(): void
+    {
+        // Returns the render text
+        $notice = new AdminNotice('test');
+        $this->assertSame('test', $notice->getRenderTextOrCallback());
+
+        // Returns the render callback
+        $callback = function () {};
+        $notice = new AdminNotice($callback);
+        $this->assertSame($callback, $notice->getRenderTextOrCallback());
+    }
+
+    /**
+     * @covers ::getRenderedContent
+     *
+     * @unreleased
+     */
+    public function testRenderedContent(): void
+    {
+        // Returns the plain, rendered text
+        $notice = new AdminNotice('test');
+        $this->assertSame('test', $notice->getRenderedContent());
+
+        // Returns the text with auto-paragraphs
+        $notice = (new AdminNotice('test'))
+            ->autoParagraph();
+        $this->assertSame(wpautop('test'), $notice->getRenderedContent());
+
+        // Returns the results of the callback
+        $notice = new AdminNotice(function () {
+            return 'test-callback';
+        });
+        $this->assertSame('test-callback', $notice->getRenderedContent());
     }
 }

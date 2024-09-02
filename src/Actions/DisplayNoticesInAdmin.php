@@ -100,7 +100,7 @@ class DisplayNoticesInAdmin
         }
 
         foreach ($capabilities as $capability) {
-            if (current_user_can(...$capability)) {
+            if ($capability->currentUserCan()) {
                 return true;
             }
         }

@@ -11,6 +11,7 @@ use Exception;
 use InvalidArgumentException;
 use StellarWP\AdminNotices\ValueObjects\NoticeUrgency;
 use StellarWP\AdminNotices\ValueObjects\ScreenCondition;
+use StellarWP\AdminNotices\ValueObjects\UserCapability;
 
 class AdminNotice
 {
@@ -20,9 +21,7 @@ class AdminNotice
     protected $renderTextOrCallback;
 
     /**
-     * @var array capability arguments compatible with current_user_can()
-     *
-     * @see https://developer.wordpress.org/reference/functions/current_user_can/
+     * @var UserCapability[]
      */
     protected $userCapabilities;
 
@@ -93,11 +92,13 @@ class AdminNotice
 
         // Validate and store the capabilities
         foreach ($capabilities as $capability) {
-            if (is_string($capability)) {
-                $this->userCapabilities[] = [$capability];
-            } elseif (is_array($capability) && (count($capability) === 2 || count($capability) === 3) && is_string(
-                    $capability[0]
-                )) {
+            if (empty($capability)) {
+                throw new InvalidArgumentException('Capability must be a non-empty string or array');
+            } elseif (is_string($capability)) {
+                $this->userCapabilities[] = new UserCapability($capability);
+            } elseif (is_array($capability) && is_string($capability[0])) {
+                $this->userCapabilities[] = new UserCapability($capability[0], array_slice($capability, 1));
+            } elseif ($capability instanceof UserCapability) {
                 $this->userCapabilities[] = $capability;
             } else {
                 throw new InvalidArgumentException(
@@ -301,6 +302,8 @@ class AdminNotice
      * Returns the user capabilities
      *
      * @unreleased
+     *
+     * @return UserCapability[]
      */
     public function getUserCapabilities(): ?array
     {
