@@ -315,4 +315,73 @@ class AdminNoticeTest extends TestCase
         });
         $this->assertSame('test-callback', $notice->getRenderedContent());
     }
+
+    /**
+     * @covers ::getUserCapabilities
+     *
+     * @unreleased
+     */
+    public function testGetUserCapabilities(): void
+    {
+        // Defaults to empty array
+        $notice = new AdminNotice('test');
+        $this->assertEmpty($notice->getUserCapabilities());
+
+        // Returns the user capabilities
+        $notice->ifUserCan('test');
+        $this->assertCount(1, $notice->getUserCapabilities());
+        $this->assertContainsOnlyInstancesOf(UserCapability::class, $notice->getUserCapabilities());
+        $this->assertEquals([new UserCapability('test')], $notice->getUserCapabilities());
+    }
+
+    /**
+     * @covers ::getAfterDate
+     *
+     * @unreleased
+     */
+    public function testGetAfterDate(): void
+    {
+        // Defaults to null
+        $notice = new AdminNotice('test');
+        $this->assertNull($notice->getAfterDate());
+
+        // Returns the date after which the notice should be displayed
+        $notice->after('2021-01-01');
+        $this->assertInstanceOf(DateTimeImmutable::class, $notice->getAfterDate());
+        $this->assertSame('2021-01-01', $notice->getAfterDate()->format('Y-m-d'));
+    }
+
+    /**
+     * @covers ::getUntilDate
+     *
+     * @unreleased
+     */
+    public function testGetUntilDate(): void
+    {
+        // Defaults to null
+        $notice = new AdminNotice('test');
+        $this->assertNull($notice->getUntilDate());
+
+        // Returns the date until which the notice should be displayed
+        $notice->until('2021-01-01');
+        $this->assertInstanceOf(DateTimeImmutable::class, $notice->getUntilDate());
+        $this->assertSame('2021-01-01', $notice->getUntilDate()->format('Y-m-d'));
+    }
+
+    /**
+     * @covers ::getWhenCallback
+     *
+     * @unreleased
+     */
+    public function testGetWhenCallback(): void
+    {
+        // Defaults to null
+        $notice = new AdminNotice('test');
+        $this->assertNull($notice->getWhenCallback());
+
+        // Returns the callback
+        $callback = function () {};
+        $notice->when($callback);
+        $this->assertSame($callback, $notice->getWhenCallback());
+    }
 }
