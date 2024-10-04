@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace StellarWP\AdminNotices\Tests\Unit\ValueObjects;
 
 use InvalidArgumentException;
-use StellarWP\AdminNotices\Tests\TestCase;
+use StellarWP\AdminNotices\Tests\Support\Helper\TestCase;
 use StellarWP\AdminNotices\ValueObjects\NoticeUrgency;
 
 /**

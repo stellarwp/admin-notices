@@ -4,10 +4,40 @@ declare(strict_types=1);
 
 use StellarWP\AdminNotices\Actions\DisplayNoticesInAdmin;
 use StellarWP\AdminNotices\AdminNotice;
-use StellarWP\AdminNotices\Tests\TestCase;
+use StellarWP\AdminNotices\Tests\Support\Helper\TestCase;
+use StellarWP\AdminNotices\Tests\Support\Traits\WithUopz;
+use StellarWP\AdminNotices\ValueObjects\UserCapability;
 
+/**
+ * @coversDefaultClass \StellarWP\AdminNotices\Actions\DisplayNoticesInAdmin
+ */
 class DisplayNoticesInAdminTest extends TestCase
 {
+    use WithUopz;
+
+    /**
+     * @var array $originalServer The original $_SERVER superglobal, for restoration after tests.
+     */
+    protected $originalServer;
+
+    /**
+     * @unreleased
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->originalServer = $_SERVER;
+    }
+
+    /**
+     * @unreleased
+     */
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        $_SERVER = $this->originalServer;
+    }
+
     /**
      * @unreleased
      */
@@ -33,15 +63,16 @@ class DisplayNoticesInAdminTest extends TestCase
     }
 
     /**
+     * @covers ::passesDateLimits
      * @dataProvider passDateLimitsDataProvider
      *
      * @unreleased
      */
-    public function testPassesDateLimits(AdminNotice $notice, $passes): void
+    public function testPassesDateLimits(AdminNotice $notice, bool $shouldPass): void
     {
         $displayNoticesInAdmin = new DisplayNoticesInAdmin();
 
-        if ($passes) {
+        if ($shouldPass) {
             $this->expectOutputString('foo');
         } else {
             $this->expectOutputString('');
@@ -67,6 +98,144 @@ class DisplayNoticesInAdminTest extends TestCase
                 false,
             ],
         ];
+    }
+
+    /**
+     * @dataProvider passWhenCallbackDataProvider
+     * @covers ::passesWhenCallback
+     *
+     * @unreleased
+     */
+    public function testPassesWhenCallback(AdminNotice $notice, bool $shouldPass): void
+    {
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+
+        if ($shouldPass) {
+            $this->expectOutputString('foo');
+        } else {
+            $this->expectOutputString('');
+        }
+
+        $displayNoticesInAdmin($notice);
+    }
+
+    /**
+     * @unreleased
+     */
+    public function passWhenCallbackDataProvider(): array
+    {
+        return [
+            'Passes with no callback' => [$this->getSimpleMockNotice('foo'), true],
+            'Passes with valid callback' => [
+                $this->getSimpleMockNotice('foo')->when(function () {
+                    return true;
+                }),
+                true,
+            ],
+            'Fails with invalid callback' => [
+                $this->getSimpleMockNotice('foo')->when(function () {
+                    return false;
+                }),
+                false,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider passUserCapabilitiesDataProvider
+     * @covers ::passesUserCapabilities
+     *
+     * @unreleased
+     */
+    public function testPassesUserCapabilities(AdminNotice $notice, bool $shouldPass): void
+    {
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+
+        if ($shouldPass) {
+            $this->expectOutputString('foo');
+        } else {
+            $this->expectOutputString('');
+        }
+
+        $displayNoticesInAdmin($notice);
+    }
+
+    public function passUserCapabilitiesDataProvider(): array
+    {
+        $getMockCapability = function (bool $shouldPass) {
+            $mock = $this->createMock(UserCapability::class);
+
+            $mock
+                ->method('currentUserCan')
+                ->willReturn($shouldPass);
+
+            return $mock;
+        };
+
+        return [
+            'Passes with no capabilities' => [$this->getSimpleMockNotice('foo'), true],
+            'Passes with valid capabilities' => [
+                $this->getSimpleMockNotice('foo')->ifUserCan($getMockCapability(true)),
+                true,
+            ],
+            'Fails with invalid capabilities' => [
+                $this->getSimpleMockNotice('foo')->ifUserCan($getMockCapability(false)),
+                false,
+            ],
+            'Passes if at least one capability is valid' => [
+                $this->getSimpleMockNotice('foo')->ifUserCan(
+                    $getMockCapability(false),
+                    $getMockCapability(true),
+                    $getMockCapability(false)
+                ),
+                true,
+            ],
+        ];
+    }
+
+    public function testShouldPassScreenConditionsWhenThereAreNoConditions(): void
+    {
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $notice = $this->getSimpleMockNotice('foo');
+
+        $this->expectOutputString('foo');
+        $displayNoticesInAdmin($notice);
+    }
+
+    public function testShouldPassScreenConditionsWhenConditionIsValidRegex(): void
+    {
+        $_SERVER['REQUEST_URI'] = 'http://example.com/wp-admin/dashboard.php';
+
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $notice = $this->getSimpleMockNotice('foo')->on('~Dashboard~i'); // check regex flags, too
+
+        $this->expectOutputString('foo');
+        $displayNoticesInAdmin($notice);
+    }
+
+    public function testShouldPassScreenConditionsWhenConditionIsValidString(): void
+    {
+        $_SERVER['REQUEST_URI'] = 'http://example.com/wp-admin/dashboard.php';
+
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $notice = $this->getSimpleMockNotice('foo')->on('dashboard');
+
+        $this->expectOutputString('foo');
+        $displayNoticesInAdmin($notice);
+    }
+
+    public function testShouldPassScreenConditionsWhenConditionMatchesWPScreen(): void
+    {
+        $_SERVER['REQUEST_URI'] = 'http://example.com/wp-admin/dashboard.php';
+
+        $this->set_fn_return('get_current_screen', (object)['base' => 'dashboard']);
+
+        // mock get_current_screen() global function
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $notice = $this->getSimpleMockNotice('foo')->on(['base' => 'dashboard']);
+
+        $this->expectOutputString('foo');
+        $displayNoticesInAdmin($notice);
     }
 
     /**

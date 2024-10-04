@@ -33,7 +33,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "StellarWP\\AdminNotices\\Tests\\": "tests/_support/Helper"
+            "StellarWP\\AdminNotices\\Tests\\": "tests/",
+            "StellarWP\\AdminNotices\\Tests\\Support\\": "tests/_support"
         }
     },
     "scripts": {

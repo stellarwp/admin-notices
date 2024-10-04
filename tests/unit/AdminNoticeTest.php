@@ -7,7 +7,7 @@ namespace StellarWP\AdminNotices\Tests\Unit;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use StellarWP\AdminNotices\AdminNotice;
-use StellarWP\AdminNotices\Tests\TestCase;
+use StellarWP\AdminNotices\Tests\Support\Helper\TestCase;
 use StellarWP\AdminNotices\ValueObjects\NoticeUrgency;
 use StellarWP\AdminNotices\ValueObjects\ScreenCondition;
 use StellarWP\AdminNotices\ValueObjects\UserCapability;

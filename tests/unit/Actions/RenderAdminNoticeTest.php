@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use StellarWP\AdminNotices\Actions\RenderAdminNotice;
 use StellarWP\AdminNotices\AdminNotice;
-use StellarWP\AdminNotices\Tests\TestCase;
+use StellarWP\AdminNotices\Tests\Support\Helper\TestCase;
 
 class RenderAdminNoticeTest extends TestCase
 {

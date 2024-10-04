@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use StellarWP\AdminNotices\AdminNotice;
 use StellarWP\AdminNotices\NotificationsRegistrar;
-use StellarWP\AdminNotices\Tests\TestCase;
+use StellarWP\AdminNotices\Tests\Support\Helper\TestCase;
 
 /**
  * @coversDefaultClass \StellarWP\AdminNotices\NotificationsRegistrar
