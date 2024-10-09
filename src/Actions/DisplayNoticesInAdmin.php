@@ -39,7 +39,8 @@ class DisplayNoticesInAdmin
      */
     private function shouldDisplayNotice(AdminNotice $notice): bool
     {
-        return $this->passesDateLimits($notice)
+        return $this->passesDismissedConditions($notice)
+               && $this->passesDateLimits($notice)
                && $this->passesWhenCallback($notice)
                && $this->passesUserCapabilities($notice)
                && $this->passesScreenConditions($notice);
@@ -150,4 +151,23 @@ class DisplayNoticesInAdmin
 
         return false;
     }
+
+    private function passesDismissedConditions(AdminNotice $notice): bool
+    {
+        $userPreferences = get_user_meta(get_current_user_id(), 'wp_persisted_preferences', true);
+
+        $key = "stellarwp/admin-notices";
+        if (!is_array($userPreferences) || empty($userPreferences[$key])) {
+            return true;
+        }
+
+        $dismissedNotices = $userPreferences[$key];
+
+        if (key_exists($notice->getId(), $dismissedNotices)) {
+            return false;
+        }
+
+        return true;
+    }
 }
+

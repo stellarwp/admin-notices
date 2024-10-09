@@ -16,6 +16,11 @@ use StellarWP\AdminNotices\ValueObjects\UserCapability;
 class AdminNotice
 {
     /**
+     * @var string
+     */
+    protected $id;
+
+    /**
      * @var string|callable
      */
     protected $renderTextOrCallback;
@@ -67,12 +72,13 @@ class AdminNotice
      *
      * @param string|callable $renderTextOrCallback
      */
-    public function __construct($renderTextOrCallback)
+    public function __construct(string $id, $renderTextOrCallback)
     {
         if (!is_string($renderTextOrCallback) && !is_callable($renderTextOrCallback)) {
             throw new InvalidArgumentException('The renderTextOrCallback argument must be a string or a callable');
         }
 
+        $this->id = $id;
         $this->renderTextOrCallback = $renderTextOrCallback;
         $this->urgency = NoticeUrgency::info();
     }
@@ -270,6 +276,16 @@ class AdminNotice
         $this->dismissible = false;
 
         return $this;
+    }
+
+    /**
+     * Returns the notice ID
+     *
+     * @unreleased
+     */
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     /**

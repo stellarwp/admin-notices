@@ -16,7 +16,7 @@ interface NotificationsRegistrarInterface
      *
      * @throws NotificationCollisionException
      */
-    public function registerNotice(string $id, AdminNotice $notice): void;
+    public function registerNotice(AdminNotice $notice): void;
 
     /**
      * Removes a notice from the register.

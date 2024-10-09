@@ -17,8 +17,10 @@ class NotificationsRegistrar implements NotificationsRegistrarInterface
      *
      * @unreleased
      */
-    public function registerNotice(string $id, AdminNotice $notice): void
+    public function registerNotice(AdminNotice $notice): void
     {
+        $id = $notice->getId();
+
         if (isset($this->notices[$id])) {
             throw new NotificationCollisionException($id, $notice);
         }

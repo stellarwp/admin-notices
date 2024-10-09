@@ -31,8 +31,9 @@ class RenderAdminNotice
         }
 
         return sprintf(
-            "<div class='%s'>%s</div>",
+            "<div class='%s' data-notice-id='%s'>%s</div>",
             esc_attr($this->getWrapperClasses()),
+            $this->notice->getId(),
             $this->notice->getRenderedContent()
         );
     }
