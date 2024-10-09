@@ -116,14 +116,14 @@ class DisplayNoticesInAdmin
      */
     private function passesScreenConditions(AdminNotice $notice): bool
     {
-        $screen = get_current_screen();
-        $currentUrl = get_admin_url(null, $_SERVER['REQUEST_URI']);
-
         $screenConditions = $notice->getOnConditions();
 
         if (empty($screenConditions)) {
             return true;
         }
+
+        $screen = get_current_screen();
+        $currentUrl = get_admin_url(null, $_SERVER['REQUEST_URI']);
 
         foreach ($screenConditions as $screenCondition) {
             $condition = $screenCondition->getCondition();
