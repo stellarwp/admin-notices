@@ -131,11 +131,15 @@ class AdminNotices
 
     public static function enqueueScripts(): void
     {
+        // use the version from the composer.json file
+        $composerJson = json_decode(file_get_contents(__DIR__ . '/../composer.json'), true);
+        $version = $composerJson['version'];
+
         wp_enqueue_script(
             'stellarwp-admin-notices',
             self::$packageUrl . '/src/resources/admin-notices.js',
             ['jquery', 'wp-data', 'wp-preferences'],
-            '1.0',
+            $version,
             true
         );
     }
