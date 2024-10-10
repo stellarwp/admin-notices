@@ -34,7 +34,7 @@ class AdminNotices
     /**
      * Registers a notice to be conditionally displayed in the admin
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @param string|callable $render
      */
@@ -50,7 +50,7 @@ class AdminNotices
     /**
      * Immediately renders a notice, useful when wanting to display a notice in an ad hoc context
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @param bool $echo whether to echo or return the notice
      *
@@ -74,7 +74,7 @@ class AdminNotices
     /**
      * Removes a registered notice so it will no longer be shown
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public static function removeNotice(string $notificationId): void
     {
@@ -84,7 +84,7 @@ class AdminNotices
     /**
      * Sets the container with the register stored to be used for storing notices
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public static function setContainer(ContainerInterface $container): void
     {
@@ -96,7 +96,7 @@ class AdminNotices
      *
      * This should be called at the beginning of the plugin file along with other configuration.
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public static function initialize(string $namespace, string $pluginUrl): void
     {
@@ -110,7 +110,7 @@ class AdminNotices
     /**
      * Returns the notices stored in the register
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @return AdminNotice[]
      */
@@ -122,7 +122,7 @@ class AdminNotices
     /**
      * Hook action to display the notices in the admin
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public static function setUpNotices(): void
     {
@@ -147,7 +147,7 @@ class AdminNotices
     /**
      * Returns the registrar instance, from the container if available, otherwise a locally stored instance
      *
-     * @unreleased
+     * @since 1.0.0
      */
     private static function getRegistrar(): NotificationsRegistrarInterface
     {

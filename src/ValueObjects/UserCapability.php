@@ -8,7 +8,7 @@ namespace StellarWP\AdminNotices\ValueObjects;
 /**
  * A simple VO to encapsulate a user capability and its parameters.
  *
- * @unreleased
+ * @since 1.0.0
  */
 class UserCapability
 {
@@ -23,7 +23,7 @@ class UserCapability
     private $parameters;
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function __construct(string $capability, array $parameters = [])
     {
@@ -34,7 +34,7 @@ class UserCapability
     /**
      * Checks of the current user passes the given capability.
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function currentUserCan(): bool
     {

@@ -7,7 +7,7 @@ use InvalidArgumentException;
 /**
  * A value object representing the urgency of a notice.
  *
- * @unreleased
+ * @since 1.0.0
  */
 class NoticeUrgency
 {
@@ -22,7 +22,7 @@ class NoticeUrgency
     private $urgency;
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public static function info(): self
     {
@@ -30,7 +30,7 @@ class NoticeUrgency
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public static function warning(): self
     {
@@ -38,7 +38,7 @@ class NoticeUrgency
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public static function error(): self
     {
@@ -46,7 +46,7 @@ class NoticeUrgency
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public static function success(): self
     {
@@ -54,7 +54,7 @@ class NoticeUrgency
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function __construct(string $urgency)
     {
@@ -66,7 +66,7 @@ class NoticeUrgency
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function __toString(): string
     {

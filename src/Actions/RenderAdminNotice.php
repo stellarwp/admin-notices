@@ -10,7 +10,7 @@ use StellarWP\AdminNotices\AdminNotice;
 /**
  * Renders the admin notice based on the configuration of the notice.
  *
- * @unreleased
+ * @since 1.0.0
  */
 class RenderAdminNotice
 {
@@ -41,7 +41,7 @@ class RenderAdminNotice
     /**
      * Generates the classes for the standard WordPress notice wrapper.
      *
-     * @unreleased
+     * @since 1.0.0
      */
     private function getWrapperClasses(): string
     {

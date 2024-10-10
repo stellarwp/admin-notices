@@ -12,12 +12,12 @@ use StellarWP\AdminNotices\AdminNotice;
 /**
  * Displays the provided notices in the admin based on the conditions set in the notice.
  *
- * @unreleased
+ * @since 1.0.0
  */
 class DisplayNoticesInAdmin
 {
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function __invoke(AdminNotice ...$notices)
     {
@@ -35,7 +35,7 @@ class DisplayNoticesInAdmin
     /**
      * Checks whether the notice should be displayed based on the provided conditions.
      *
-     * @unreleased
+     * @since 1.0.0
      */
     private function shouldDisplayNotice(AdminNotice $notice): bool
     {
@@ -49,7 +49,7 @@ class DisplayNoticesInAdmin
     /**
      * Checks whether the notice should be displayed based on the provided date limits.
      *
-     * @unreleased
+     * @since 1.0.0
      */
     private function passesDateLimits(AdminNotice $notice): bool
     {
@@ -73,7 +73,7 @@ class DisplayNoticesInAdmin
     /**
      * Checks whether the notice should be displayed based on the provided callback.
      *
-     * @unreleased
+     * @since 1.0.0
      */
     private function passesWhenCallback(AdminNotice $notice): bool
     {
@@ -90,7 +90,7 @@ class DisplayNoticesInAdmin
      * Checks whether user limits were provided and they pass. Only one capability is required to pass, allowing for
      * multiple users have visibility.
      *
-     * @unreleased
+     * @since 1.0.0
      */
     private function passesUserCapabilities(AdminNotice $notice): bool
     {
@@ -113,7 +113,7 @@ class DisplayNoticesInAdmin
      * Checks whether the notice is limited to specific screens and the current screen matches the conditions. Only one
      * screen condition is required to pass, allowing for the notice to appear on multiple screens.
      *
-     * @unreleased
+     * @since 1.0.0
      */
     private function passesScreenConditions(AdminNotice $notice): bool
     {

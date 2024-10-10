@@ -68,7 +68,7 @@ class AdminNotice
     protected $dismissible = false;
 
     /**
-     * @unreleased
+     * @since 1.0.0
      *
      * @param string|callable $renderTextOrCallback
      */
@@ -86,7 +86,7 @@ class AdminNotice
     /**
      * Limits the notice to display based on the capabilities of the current user
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @param string|array ...$capabilities String or array of arguments compatible with current_user_can()
      *
@@ -119,7 +119,7 @@ class AdminNotice
     /**
      * Limits the notice to display after a specific date
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @param $date DateTimeInterface|string|int if a string then it will be considered UTC
      *
@@ -136,7 +136,7 @@ class AdminNotice
     /**
      * Limits the notice to display until a specific date
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @param $date DateTimeInterface|string|int if a string then it will be considered UTC
      *
@@ -165,7 +165,7 @@ class AdminNotice
     /**
      * Provide a callback which returns a boolean to determine if the notice should be displayed
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function when(callable $callback): self
     {
@@ -177,7 +177,7 @@ class AdminNotice
     /**
      * Limits the notice to display on specific screens
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @param array|string|ScreenCondition $on
      */
@@ -195,7 +195,7 @@ class AdminNotice
     /**
      * Automatically applies paragraph tags to the notice content
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function autoParagraph(bool $auto = true): self
     {
@@ -207,7 +207,7 @@ class AdminNotice
     /**
      * Disables automatic paragraph tagging
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function withoutAutoParagraph(): self
     {
@@ -219,7 +219,7 @@ class AdminNotice
     /**
      * Sets the urgency of the notice, used when the notice is displayed in the standard wrapper
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @param $urgency string|NoticeUrgency
      */
@@ -233,7 +233,7 @@ class AdminNotice
     /**
      * Sets the notice to display without the standard WordPress wrapper
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function withWrapper(bool $withWrapper = true): self
     {
@@ -245,7 +245,7 @@ class AdminNotice
     /**
      * Sets the notice to display without the standard WordPress wrapper
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function withoutWrapper(): self
     {
@@ -257,7 +257,7 @@ class AdminNotice
     /**
      * Sets the notice to be dismissible, usable when the notice is displayed in the standard wrapper
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function dismissible(bool $dismissible = true): self
     {
@@ -269,7 +269,7 @@ class AdminNotice
     /**
      * Sets the notice to be not dismissible, usable when the notice is displayed in the standard wrapper
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function notDismissible(): self
     {
@@ -281,7 +281,7 @@ class AdminNotice
     /**
      * Returns the notice ID
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function getId(): string
     {
@@ -291,7 +291,7 @@ class AdminNotice
     /**
      * Returns the text or callback used to render the notice
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @return callable|string
      */
@@ -303,7 +303,7 @@ class AdminNotice
     /**
      * Returns the rendered content of the notice, either by returning the string or executing the callback
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function getRenderedContent(): string
     {
@@ -317,7 +317,7 @@ class AdminNotice
     /**
      * Returns the user capabilities
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @return UserCapability[]
      */
@@ -329,7 +329,7 @@ class AdminNotice
     /**
      * Returns the date after which the notice should be displayed
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function getAfterDate(): ?DateTimeInterface
     {
@@ -339,7 +339,7 @@ class AdminNotice
     /**
      * Returns the date until which the notice should be displayed
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function getUntilDate(): ?DateTimeInterface
     {
@@ -349,7 +349,7 @@ class AdminNotice
     /**
      * Returns the callback used to determine if the notice should be displayed
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function getWhenCallback(): ?callable
     {
@@ -359,7 +359,7 @@ class AdminNotice
     /**
      * Returns the screen conditions used to determine if the notice should be displayed
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @return ScreenCondition[]
      */
@@ -371,7 +371,7 @@ class AdminNotice
     /**
      * Returns whether the notice content should be automatically wrapped in paragraph tags
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function shouldAutoParagraph(): bool
     {
@@ -381,7 +381,7 @@ class AdminNotice
     /**
      * Returns the urgency of the notice
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function getUrgency(): NoticeUrgency
     {
@@ -391,7 +391,7 @@ class AdminNotice
     /**
      * Returns whether the notice should be displayed with the standard WordPress wrapper
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function usesWrapper(): bool
     {
@@ -401,7 +401,7 @@ class AdminNotice
     /**
      * Returns whether the notice is dismissible
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function isDismissible(): bool
     {
@@ -411,7 +411,7 @@ class AdminNotice
     /**
      * Parses the date into a DateTimeInterface for the date methods
      *
-     * @unreleased
+     * @since 1.0.0
      *
      * @param $date DateTimeInterface|string|int if a string then it will be considered UTC
      *

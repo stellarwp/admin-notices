@@ -15,7 +15,7 @@ class NotificationsRegistrar implements NotificationsRegistrarInterface
     /**
      * {@inheritDoc}
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function registerNotice(AdminNotice $notice): void
     {
@@ -31,7 +31,7 @@ class NotificationsRegistrar implements NotificationsRegistrarInterface
     /**
      * {@inheritDoc}
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function unregisterNotice(string $id): void
     {
@@ -41,7 +41,7 @@ class NotificationsRegistrar implements NotificationsRegistrarInterface
     /**
      * {@inheritDoc}
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function getNotices(): array
     {
