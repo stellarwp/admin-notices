@@ -245,7 +245,7 @@ class DisplayNoticesInAdminTest extends TestCase
      */
     private function getSimpleMockNotice($output): AdminNotice
     {
-        return (new AdminNotice($output))
+        return (new AdminNotice('test_id', $output))
             ->withoutWrapper()
             ->withoutAutoParagraph();
     }

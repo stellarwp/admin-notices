@@ -25,7 +25,7 @@ class AdminNoticeTest extends TestCase
     public function testThrowsExceptionWhenRenderIsNotStringOrCallable()
     {
         $this->expectException(InvalidArgumentException::class);
-        new AdminNotice(1);
+        new AdminNotice('test', 1);
     }
 
     /**
@@ -35,7 +35,7 @@ class AdminNoticeTest extends TestCase
      */
     public function testIfUserCan(): void
     {
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $self = $notice->ifUserCan('test', ['test', 1], ['test', 2, 3]);
 
         $this->assertCount(3, $notice->getUserCapabilities());
@@ -55,7 +55,7 @@ class AdminNoticeTest extends TestCase
     public function testIfUserCanShouldThrowExceptionWhenCapabilityIsNotStringOrArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $notice->ifUserCan(1);
     }
 
@@ -67,7 +67,7 @@ class AdminNoticeTest extends TestCase
     public function testIfUserCanShouldThrowExceptionWhenCapabilityArrayIsMisshaped(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $notice->ifUserCan([]);
     }
 
@@ -82,7 +82,7 @@ class AdminNoticeTest extends TestCase
      */
     public function testAfter($parameter, $assertDate): void
     {
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $self = $notice->after($parameter);
         $this->assertInstanceOf(DateTimeImmutable::class, $notice->getAfterDate());
         $this->assertSame($assertDate, $notice->getAfterDate()->format('Y-m-d'));
@@ -100,7 +100,7 @@ class AdminNoticeTest extends TestCase
      */
     public function testUntil($parameter, $assertDate): void
     {
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $self = $notice->until($parameter);
         $this->assertInstanceOf(DateTimeImmutable::class, $notice->getUntilDate());
         $this->assertSame($assertDate, $notice->getUntilDate()->format('Y-m-d'));
@@ -114,7 +114,7 @@ class AdminNoticeTest extends TestCase
      */
     public function testBetween(): void
     {
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $self = $notice->between('2021-01-01', '2021-02-01');
         $this->assertInstanceOf(DateTimeImmutable::class, $notice->getAfterDate());
         $this->assertSame('2021-01-01', $notice->getAfterDate()->format('Y-m-d'));
@@ -140,7 +140,7 @@ class AdminNoticeTest extends TestCase
      */
     public function testWhen(): void
     {
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $self = $notice->when(function () {
             return true;
         });
@@ -157,7 +157,7 @@ class AdminNoticeTest extends TestCase
      */
     public function testOn(): void
     {
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $self = $notice->on('test', new ScreenCondition('test2'));
 
         $this->assertEquals([new ScreenCondition('test'), new ScreenCondition('test2')], $notice->getOnConditions());
@@ -174,7 +174,7 @@ class AdminNoticeTest extends TestCase
     public function testAutoParagraph(): void
     {
         // Defaults to false
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $this->assertFalse($notice->shouldAutoParagraph());
 
         // Method defaults to true
@@ -205,7 +205,7 @@ class AdminNoticeTest extends TestCase
     public function testUrgency(): void
     {
         // Defaults to 'info'
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $this->assertEquals('info', $notice->getUrgency());
 
         // Can be set with string
@@ -226,7 +226,7 @@ class AdminNoticeTest extends TestCase
     public function testWithWrapper(): void
     {
         // Defaults to true
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $this->assertTrue($notice->usesWrapper());
 
         // Method can be set to false
@@ -253,9 +253,9 @@ class AdminNoticeTest extends TestCase
      */
     public function testDismissible(): void
     {
-        // Defaults to true
-        $notice = new AdminNotice('test');
-        $this->assertTrue($notice->isDismissible());
+        // Defaults to false
+        $notice = new AdminNotice('test_id', 'test');
+        $this->assertFalse($notice->isDismissible());
 
         // Method defaults to true
         $self = $notice->dismissible();
@@ -284,12 +284,12 @@ class AdminNoticeTest extends TestCase
     public function testGetRenderTextOrCallback(): void
     {
         // Returns the render text
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $this->assertSame('test', $notice->getRenderTextOrCallback());
 
         // Returns the render callback
         $callback = function () {};
-        $notice = new AdminNotice($callback);
+        $notice = new AdminNotice('test_id', $callback);
         $this->assertSame($callback, $notice->getRenderTextOrCallback());
     }
 
@@ -301,16 +301,16 @@ class AdminNoticeTest extends TestCase
     public function testRenderedContent(): void
     {
         // Returns the plain, rendered text
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $this->assertSame('test', $notice->getRenderedContent());
 
         // Returns the text with auto-paragraphs
-        $notice = (new AdminNotice('test'))
+        $notice = (new AdminNotice('test_id', 'test'))
             ->autoParagraph();
         $this->assertSame(wpautop('test'), $notice->getRenderedContent());
 
         // Returns the results of the callback
-        $notice = new AdminNotice(function () {
+        $notice = new AdminNotice('test_id', function () {
             return 'test-callback';
         });
         $this->assertSame('test-callback', $notice->getRenderedContent());
@@ -324,7 +324,7 @@ class AdminNoticeTest extends TestCase
     public function testGetUserCapabilities(): void
     {
         // Defaults to empty array
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $this->assertEmpty($notice->getUserCapabilities());
 
         // Returns the user capabilities
@@ -342,7 +342,7 @@ class AdminNoticeTest extends TestCase
     public function testGetAfterDate(): void
     {
         // Defaults to null
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $this->assertNull($notice->getAfterDate());
 
         // Returns the date after which the notice should be displayed
@@ -359,7 +359,7 @@ class AdminNoticeTest extends TestCase
     public function testGetUntilDate(): void
     {
         // Defaults to null
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $this->assertNull($notice->getUntilDate());
 
         // Returns the date until which the notice should be displayed
@@ -376,7 +376,7 @@ class AdminNoticeTest extends TestCase
     public function testGetWhenCallback(): void
     {
         // Defaults to null
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $this->assertNull($notice->getWhenCallback());
 
         // Returns the callback

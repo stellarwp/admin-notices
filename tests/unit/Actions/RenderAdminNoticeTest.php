@@ -13,7 +13,7 @@ class RenderAdminNoticeTest extends TestCase
      */
     public function testShouldRenderNoticeWithoutWrapper(): void
     {
-        $notice = (new AdminNotice('Hello world!'))
+        $notice = (new AdminNotice('test_id', 'Hello world!'))
             ->withoutAutoParagraph()
             ->withoutWrapper();
 
@@ -29,14 +29,14 @@ class RenderAdminNoticeTest extends TestCase
      */
     public function testShouldRenderNoticeInWrapper(): void
     {
-        $notice = (new AdminNotice('Hello world!'))
+        $notice = (new AdminNotice('test_id', 'Hello world!'))
             ->withoutAutoParagraph()
             ->notDismissible();
 
         $renderAdminNotice = new RenderAdminNotice($notice);
 
         $this->assertEquals(
-            "<div class='notice notice-info'>Hello world!</div>",
+            "<div class='notice notice-info' data-notice-id='test_id'>Hello world!</div>",
             $renderAdminNotice()
         );
     }
@@ -46,14 +46,14 @@ class RenderAdminNoticeTest extends TestCase
      */
     public function testShouldIncludeDismissibleClass(): void
     {
-        $notice = (new AdminNotice('Hello world!'))
+        $notice = (new AdminNotice('test_id', 'Hello world!'))
             ->withoutAutoParagraph()
             ->dismissible();
 
         $renderAdminNotice = new RenderAdminNotice($notice);
 
         $this->assertEquals(
-            "<div class='notice notice-info is-dismissible'>Hello world!</div>",
+            "<div class='notice notice-info is-dismissible' data-notice-id='test_id'>Hello world!</div>",
             $renderAdminNotice()
         );
     }
@@ -63,7 +63,7 @@ class RenderAdminNoticeTest extends TestCase
      */
     public function testShouldIncludeAutoParagraphs(): void
     {
-        $notice = (new AdminNotice('Hello world!'))
+        $notice = (new AdminNotice('test_id', 'Hello world!'))
             ->autoParagraph()
             ->notDismissible();
 
@@ -71,7 +71,7 @@ class RenderAdminNoticeTest extends TestCase
         $textWithAutoParagraphs = wpautop('Hello world!');
 
         $this->assertEquals(
-            "<div class='notice notice-info'>$textWithAutoParagraphs</div>",
+            "<div class='notice notice-info' data-notice-id='test_id'>$textWithAutoParagraphs</div>",
             $renderAdminNotice()
         );
     }
@@ -81,7 +81,7 @@ class RenderAdminNoticeTest extends TestCase
      */
     public function testShouldRenderCallbackOutput(): void
     {
-        $notice = (new AdminNotice(function () {
+        $notice = (new AdminNotice('test_id', function () {
             return 'Hello world!';
         }))
             ->withoutAutoParagraph()
@@ -90,7 +90,7 @@ class RenderAdminNoticeTest extends TestCase
         $renderAdminNotice = new RenderAdminNotice($notice);
 
         $this->assertEquals(
-            "<div class='notice notice-info'>Hello world!</div>",
+            "<div class='notice notice-info' data-notice-id='test_id'>Hello world!</div>",
             $renderAdminNotice()
         );
     }

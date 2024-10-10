@@ -20,9 +20,9 @@ class NotificationsRegistrarTest extends TestCase
     public function testRegisterNotice(): void
     {
         $id = 'test';
-        $notice = new AdminNotice('test');
+        $notice = new AdminNotice('test_id', 'test');
         $registrar = new NotificationsRegistrar();
-        $registrar->registerNotice($id, $notice);
+        $registrar->registerNotice($notice);
         $this->assertSame($notice, $registrar->getNotices()[0]);
     }
 
@@ -35,14 +35,14 @@ class NotificationsRegistrarTest extends TestCase
     {
         $registrar = new NotificationsRegistrar();
 
-        $idToKeep = 'test';
-        $noticeToKeep = new AdminNotice('test');
+        $idToKeep = 'test-keep';
+        $noticeToKeep = new AdminNotice($idToKeep, 'test');
 
         $idToRemove = 'test-remove';
-        $noticeToRemove = new AdminNotice('test-remove');
+        $noticeToRemove = new AdminNotice($idToRemove, 'test-remove');
 
-        $registrar->registerNotice($idToKeep, $noticeToKeep);
-        $registrar->registerNotice($idToRemove, $noticeToRemove);
+        $registrar->registerNotice($noticeToKeep);
+        $registrar->registerNotice($noticeToRemove);
         $registrar->unregisterNotice($idToRemove);
 
         $this->assertSame([$noticeToKeep], $registrar->getNotices());
