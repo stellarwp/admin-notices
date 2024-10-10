@@ -6,7 +6,7 @@ jobs:
         strategy:
             matrix:
                 suite:
-                    - wpunit
+                    - unit
         runs-on: ubuntu-latest
         steps:
             -   name: Checkout the repository
@@ -69,5 +69,5 @@ jobs:
                 run: |
                     ${SLIC_BIN} use admin-notices
                     ${SLIC_BIN} composer install
-            -   name: Run suite wpunit
+            -   name: Run suite unit
                 run: ${SLIC_BIN} run ${{ matrix.suite }} --ext DotReporter
