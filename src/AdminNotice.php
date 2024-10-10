@@ -65,7 +65,7 @@ class AdminNotice
      */
     protected $withWrapper = true;
 
-    protected $dismissible = true;
+    protected $dismissible = false;
 
     /**
      * @unreleased
