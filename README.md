@@ -11,13 +11,19 @@ standard or highly customized notices within the WordPress admin.
 
 ## Installation
 
-It is recommended to install this library using Composer. To do so, run the following command:
+It's recommended that you install Admin Notices as a project dependency
+via [Composer](https://getcomposer.org/):
 
 ```bash
-composer require stellarwp/validation
+composer require stellarwp/admin-notices
 ```
 
-It is strongly recommended that you use Strauss to avoid conflicts with other plugins.
+> We _actually_ recommend that this library gets included in your project
+> using [Strauss](https://github.com/BrianHenryIE/strauss).
+>
+> Luckily, adding Strauss to your `composer.json` is only slightly more complicated than adding a
+> typical dependency, so checkout
+> our [strauss docs](https://github.com/stellarwp/global-docs/blob/main/docs/strauss-setup.md).
 
 ## Configuration & Initialization
 
@@ -108,7 +114,7 @@ $notice = new AdminNotice('my_notice', 'This is a notice');
 AdminNotices::render($notice);
 ```
 
-## Setting up the admin notice and its conditions
+## Notice Conditions
 
 At the core of this library is the `AdminNotice` class. This class is used to define the notice and
 its conditions. When the `AdminNotices::show()` method is used, it returns a new instance of the
@@ -280,6 +286,8 @@ $notice = AdminNotices::show('my_notice', 'This is a notice')
         return in_array('administrator', $user->roles);
     });
 ```
+
+## Visual & behavior options
 
 ### `autoParagraph($autoParagraph)`, `withoutAutoParagraph()`
 
