@@ -24,7 +24,7 @@ class AdminNotices
     /**
      * @var string used in actions, filters, and data storage
      */
-    protected static $namespace = '';
+    protected static $namespace;
 
     /**
      * @var string the URL to the package, used for enqueuing scripts
@@ -89,6 +89,18 @@ class AdminNotices
     public static function setContainer(ContainerInterface $container): void
     {
         self::$container = $container;
+        self::$registrar = null;
+    }
+
+    /**
+     * Removes the container so the register will be stored locally
+     *
+     * @since 1.0.0
+     */
+    public static function removeContainer(): void
+    {
+        self::$container = null;
+        self::$registrar = null;
     }
 
     /**
@@ -100,6 +112,10 @@ class AdminNotices
      */
     public static function initialize(string $namespace, string $pluginUrl): void
     {
+        if (empty($namespace)) {
+            throw new RuntimeException('Namespace must be provided');
+        }
+
         self::$packageUrl = $pluginUrl;
         self::$namespace = $namespace;
 
@@ -120,6 +136,52 @@ class AdminNotices
     }
 
     /**
+     * Rests a dismissed notice for a given user so the notice will be shown again
+     *
+     * @since 1.0.0
+     */
+    public static function resetNoticeForUser(string $notificationId, int $userId): void
+    {
+        global $wpdb;
+
+        $preferencesKey = $wpdb->get_blog_prefix() . 'persisted_preferences';
+        $preferences = get_user_meta($userId, $preferencesKey, true);
+
+        $notificationKey = self::$namespace . '/' . $notificationId;
+        if (isset($preferences['stellarwp/admin-notices'][$notificationKey])) {
+            unset($preferences['stellarwp/admin-notices'][$notificationKey]);
+            update_user_meta($userId, $preferencesKey, $preferences);
+        }
+    }
+
+    /**
+     * Resets all dismissed notices for a given user so all notices will be shown again
+     *
+     * @since 1.0.0
+     */
+    public static function resetAllNoticesForUser(int $userId): void
+    {
+        global $wpdb;
+
+        $preferencesKey = $wpdb->get_blog_prefix() . 'persisted_preferences';
+        $preferences = get_user_meta($userId, $preferencesKey, true);
+
+        if (isset($preferences['stellarwp/admin-notices'])) {
+            $preferenceRemoved = false;
+            foreach ($preferences['stellarwp/admin-notices'] as $key => $value) {
+                if (strpos($key, self::$namespace . '/') === 0) {
+                    unset($preferences['stellarwp/admin-notices'][$key]);
+                    $preferenceRemoved = true;
+                }
+            }
+
+            if ($preferenceRemoved) {
+                update_user_meta($userId, $preferencesKey, $preferences);
+            }
+        }
+    }
+
+    /**
      * Hook action to display the notices in the admin
      *
      * @since 1.0.0
@@ -129,6 +191,11 @@ class AdminNotices
         (new DisplayNoticesInAdmin())(...self::getNotices());
     }
 
+    /**
+     * Hook action to enqueue the scripts needed for dismissing notices
+     *
+     * @since 1.0.0
+     */
     public static function enqueueScripts(): void
     {
         // use the version from the composer.json file
