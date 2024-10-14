@@ -24,6 +24,12 @@ class RenderAdminNotice
         $this->notice = $notice;
     }
 
+    /**
+     * Renders the admin notice
+     *
+     * @since 1.1.0 changed data-notice-id to data-stellarwp-notice-id to avoid conflicts with other plugins
+     * @since 1.0.0
+     */
     public function __invoke(): string
     {
         if (!$this->notice->usesWrapper()) {
@@ -31,7 +37,7 @@ class RenderAdminNotice
         }
 
         return sprintf(
-            "<div class='%s' data-notice-id='%s'>%s</div>",
+            "<div class='%s' data-stellarwp-notice-id='%s'>%s</div>",
             esc_attr($this->getWrapperClasses()),
             $this->notice->getId(),
             $this->notice->getRenderedContent()
