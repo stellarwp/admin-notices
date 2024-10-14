@@ -230,6 +230,26 @@ class AdminNotice
         return $this;
     }
 
+    public function asInfo(): self
+    {
+        return $this->urgency(NoticeUrgency::info());
+    }
+
+    public function asSuccess(): self
+    {
+        return $this->urgency(NoticeUrgency::success());
+    }
+
+    public function asWarning(): self
+    {
+        return $this->urgency(NoticeUrgency::warning());
+    }
+
+    public function asError(): self
+    {
+        return $this->urgency(NoticeUrgency::error());
+    }
+
     /**
      * Sets the notice to display without the standard WordPress wrapper
      *

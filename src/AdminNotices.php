@@ -12,12 +12,12 @@ use StellarWP\AdminNotices\Contracts\NotificationsRegistrarInterface;
 class AdminNotices
 {
     /**
-     * @var ContainerInterface
+     * @var ContainerInterface|null
      */
     protected static $container;
 
     /**
-     * @var NotificationsRegistrarInterface
+     * @var NotificationsRegistrarInterface|null
      */
     protected static $registrar;
 
