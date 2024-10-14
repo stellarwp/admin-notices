@@ -36,7 +36,7 @@ class RenderAdminNoticeTest extends TestCase
         $renderAdminNotice = new RenderAdminNotice($notice);
 
         $this->assertEquals(
-            "<div class='notice notice-info' data-notice-id='test_id'>Hello world!</div>",
+            "<div class='notice notice-info' data-stellarwp-notice-id='test_id'>Hello world!</div>",
             $renderAdminNotice()
         );
     }
@@ -53,7 +53,7 @@ class RenderAdminNoticeTest extends TestCase
         $renderAdminNotice = new RenderAdminNotice($notice);
 
         $this->assertEquals(
-            "<div class='notice notice-info is-dismissible' data-notice-id='test_id'>Hello world!</div>",
+            "<div class='notice notice-info is-dismissible' data-stellarwp-notice-id='test_id'>Hello world!</div>",
             $renderAdminNotice()
         );
     }
@@ -71,7 +71,7 @@ class RenderAdminNoticeTest extends TestCase
         $textWithAutoParagraphs = wpautop('Hello world!');
 
         $this->assertEquals(
-            "<div class='notice notice-info' data-notice-id='test_id'>$textWithAutoParagraphs</div>",
+            "<div class='notice notice-info' data-stellarwp-notice-id='test_id'>$textWithAutoParagraphs</div>",
             $renderAdminNotice()
         );
     }
@@ -90,7 +90,7 @@ class RenderAdminNoticeTest extends TestCase
         $renderAdminNotice = new RenderAdminNotice($notice);
 
         $this->assertEquals(
-            "<div class='notice notice-info' data-notice-id='test_id'>Hello world!</div>",
+            "<div class='notice notice-info' data-stellarwp-notice-id='test_id'>Hello world!</div>",
             $renderAdminNotice()
         );
     }
