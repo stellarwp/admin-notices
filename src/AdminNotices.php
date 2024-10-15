@@ -193,6 +193,7 @@ class AdminNotices
     /**
      * Hook action to enqueue the scripts needed for dismissing notices
      *
+     * @since 1.1.0 added the namespacing attribute to the script tag
      * @since 1.0.2 use filetime for versioning, which will bust the cache when the library is updated
      * @since 1.0.0
      */
