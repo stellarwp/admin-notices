@@ -19,11 +19,6 @@ class RenderAdminNotice
     use HasNamespace;
 
     /**
-     * @var AdminNotice
-     */
-    private $notice;
-
-    /**
      * Renders the admin notice
      *
      * @since 1.1.0 added namespacing and notice is passed to the __invoke method
