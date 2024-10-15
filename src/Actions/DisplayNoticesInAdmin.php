@@ -8,15 +8,20 @@ namespace StellarWP\AdminNotices\Actions;
 use DateTimeImmutable;
 use DateTimeZone;
 use StellarWP\AdminNotices\AdminNotice;
+use StellarWP\AdminNotices\Traits\HasNamespace;
 
 /**
  * Displays the provided notices in the admin based on the conditions set in the notice.
  *
+ * @since 1.1.0 added namespacing
  * @since 1.0.0
  */
 class DisplayNoticesInAdmin
 {
+    use HasNamespace;
+
     /**
+     * @since 1.1.0 passed the namespace to RenderAdminNotice
      * @since 1.0.0
      */
     public function __invoke(AdminNotice ...$notices)
@@ -27,7 +32,7 @@ class DisplayNoticesInAdmin
 
         foreach ($notices as $notice) {
             if ($this->shouldDisplayNotice($notice)) {
-                echo (new RenderAdminNotice($notice))();
+                echo (new RenderAdminNotice($this->namespace))($notice);
             }
         }
     }
@@ -152,11 +157,17 @@ class DisplayNoticesInAdmin
         return false;
     }
 
+    /**
+     * Checks whether the notice has been dismissed by the user.
+     *
+     * @since 1.1.0 added namespacing to the preferences key
+     * @since 1.0.0
+     */
     private function passesDismissedConditions(AdminNotice $notice): bool
     {
         $userPreferences = get_user_meta(get_current_user_id(), 'wp_persisted_preferences', true);
 
-        $key = "stellarwp/admin-notices";
+        $key = "stellarwp/$this->namespace/admin-notices";
         if (!is_array($userPreferences) || empty($userPreferences[$key])) {
             return true;
         }

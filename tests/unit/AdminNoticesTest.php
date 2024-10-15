@@ -15,6 +15,11 @@ class AdminNoticesTest extends TestCase
 {
     use WithUopz;
 
+    protected function _before()
+    {
+        AdminNotices::initialize('namespace', 'https://example.com');
+    }
+
     /**
      * @covers ::show
      *
@@ -33,7 +38,7 @@ class AdminNoticesTest extends TestCase
         $notice = AdminNotices::show('test', 'This is a test message.');
         $this->assertInstanceOf(StellarWP\AdminNotices\AdminNotice::class, $notice);
         $this->assertEquals('This is a test message.', $notice->getRenderTextOrCallback());
-        $this->assertSame('/test', $notice->getId());
+        $this->assertSame('namespace/test', $notice->getId());
     }
 
     /**
@@ -48,7 +53,7 @@ class AdminNoticesTest extends TestCase
         AdminNotices::render($notice);
 
         $this->expectOutputString(
-            '<div class=\'notice notice-info\' data-notice-id=\'test\'>This is a test message.</div>'
+            '<div class=\'notice notice-info\' data-stellarwp-namespace-notice-id=\'test\'>This is a test message.</div>'
         );
     }
 
@@ -64,7 +69,7 @@ class AdminNoticesTest extends TestCase
         $html = AdminNotices::render($notice, false);
 
         $this->assertEquals(
-            '<div class=\'notice notice-info\' data-notice-id=\'test\'>This is a test message.</div>',
+            '<div class=\'notice notice-info\' data-stellarwp-namespace-notice-id=\'test\'>This is a test message.</div>',
             $html
         );
     }
