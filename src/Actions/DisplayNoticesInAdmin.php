@@ -167,7 +167,7 @@ class DisplayNoticesInAdmin
     {
         $userPreferences = get_user_meta(get_current_user_id(), 'wp_persisted_preferences', true);
 
-        $key = "stellarwp/$this->namespace/admin-notices";
+        $key = "stellarwp/admin-notices/$this->namespace";
         if (!is_array($userPreferences) || empty($userPreferences[$key])) {
             return true;
         }

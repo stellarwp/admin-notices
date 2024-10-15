@@ -20,7 +20,7 @@
          */
         dismissNotice: function (noticeId) {
             const now = Math.floor(Date.now() / 1000);
-            dispatch('core/preferences').set(`stellarwp/${namespace}/admin-notices`, noticeId, now);
+            dispatch('core/preferences').set(`stellarwp/admin-notices/${namespace}`, noticeId, now);
         },
     };
 

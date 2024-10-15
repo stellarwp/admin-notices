@@ -38,7 +38,7 @@ class AdminNoticesTest extends TestCase
         $notice = AdminNotices::show('test', 'This is a test message.');
         $this->assertInstanceOf(StellarWP\AdminNotices\AdminNotice::class, $notice);
         $this->assertEquals('This is a test message.', $notice->getRenderTextOrCallback());
-        $this->assertSame('namespace/test', $notice->getId());
+        $this->assertSame('test', $notice->getId());
     }
 
     /**

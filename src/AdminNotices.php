@@ -35,12 +35,13 @@ class AdminNotices
      * Registers a notice to be conditionally displayed in the admin
      *
      * @since 1.0.0
+     * @since 1.1.0 no longer include namespace in AdminNotice id
      *
      * @param string|callable $render
      */
     public static function show(string $notificationId, $render): AdminNotice
     {
-        $notice = new AdminNotice(self::$namespace . '/' . $notificationId, $render);
+        $notice = new AdminNotice($notificationId, $render);
 
         self::getRegistrar()->registerNotice($notice);
 
@@ -150,11 +151,10 @@ class AdminNotices
 
         $preferencesKey = $wpdb->get_blog_prefix() . 'persisted_preferences';
         $preferences = get_user_meta($userId, $preferencesKey, true);
-        $packageKey = 'stellarwp/' . self::$namespace . '/admin-notices';
+        $packageKey = 'stellarwp/admin-notices/' . self::$namespace;
 
-        $notificationKey = self::$namespace . '/' . $notificationId;
-        if (isset($preferences[$packageKey][$notificationKey])) {
-            unset($preferences[$packageKey][$notificationKey]);
+        if (isset($preferences[$packageKey][$notificationId])) {
+            unset($preferences[$packageKey][$notificationId]);
             update_user_meta($userId, $preferencesKey, $preferences);
         }
     }
@@ -171,7 +171,7 @@ class AdminNotices
 
         $preferencesKey = $wpdb->get_blog_prefix() . 'persisted_preferences';
         $preferences = get_user_meta($userId, $preferencesKey, true);
-        $packageKey = 'stellarwp/' . self::$namespace . '/admin-notices';
+        $packageKey = 'stellarwp/admin-notices/' . self::$namespace;
 
         if (isset($preferences[$packageKey])) {
             unset($preferences[$packageKey]);
