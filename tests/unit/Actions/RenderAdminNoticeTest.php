@@ -17,9 +17,9 @@ class RenderAdminNoticeTest extends TestCase
             ->withoutAutoParagraph()
             ->withoutWrapper();
 
-        $renderAdminNotice = new RenderAdminNotice($notice);
+        $renderAdminNotice = new RenderAdminNotice('namespace');
 
-        $this->assertEquals('Hello world!', $renderAdminNotice());
+        $this->assertEquals('Hello world!', $renderAdminNotice($notice));
     }
 
     /**
@@ -33,11 +33,11 @@ class RenderAdminNoticeTest extends TestCase
             ->withoutAutoParagraph()
             ->notDismissible();
 
-        $renderAdminNotice = new RenderAdminNotice($notice);
+        $renderAdminNotice = new RenderAdminNotice('namespace');
 
         $this->assertEquals(
-            "<div class='notice notice-info' data-notice-id='test_id'>Hello world!</div>",
-            $renderAdminNotice()
+            "<div class='notice notice-info' data-stellarwp-namespace-notice-id='test_id'>Hello world!</div>",
+            $renderAdminNotice($notice)
         );
     }
 
@@ -50,11 +50,11 @@ class RenderAdminNoticeTest extends TestCase
             ->withoutAutoParagraph()
             ->dismissible();
 
-        $renderAdminNotice = new RenderAdminNotice($notice);
+        $renderAdminNotice = new RenderAdminNotice('namespace');
 
         $this->assertEquals(
-            "<div class='notice notice-info is-dismissible' data-notice-id='test_id'>Hello world!</div>",
-            $renderAdminNotice()
+            "<div class='notice notice-info is-dismissible' data-stellarwp-namespace-notice-id='test_id'>Hello world!</div>",
+            $renderAdminNotice($notice)
         );
     }
 
@@ -67,12 +67,12 @@ class RenderAdminNoticeTest extends TestCase
             ->autoParagraph()
             ->notDismissible();
 
-        $renderAdminNotice = new RenderAdminNotice($notice);
+        $renderAdminNotice = new RenderAdminNotice('namespace');
         $textWithAutoParagraphs = wpautop('Hello world!');
 
         $this->assertEquals(
-            "<div class='notice notice-info' data-notice-id='test_id'>$textWithAutoParagraphs</div>",
-            $renderAdminNotice()
+            "<div class='notice notice-info' data-stellarwp-namespace-notice-id='test_id'>$textWithAutoParagraphs</div>",
+            $renderAdminNotice($notice)
         );
     }
 
@@ -87,11 +87,11 @@ class RenderAdminNoticeTest extends TestCase
             ->withoutAutoParagraph()
             ->notDismissible();
 
-        $renderAdminNotice = new RenderAdminNotice($notice);
+        $renderAdminNotice = new RenderAdminNotice('namespace');
 
         $this->assertEquals(
-            "<div class='notice notice-info' data-notice-id='test_id'>Hello world!</div>",
-            $renderAdminNotice()
+            "<div class='notice notice-info' data-stellarwp-namespace-notice-id='test_id'>Hello world!</div>",
+            $renderAdminNotice($notice)
         );
     }
 }

@@ -393,3 +393,38 @@ $notice = AdminNotices::show('my_notice', 'This is a notice')
 $notice = AdminNotices::show('my_notice', 'This is a notice')
     ->notDismissible();
 ```
+
+## Resetting dismissed notices
+
+For dismissible notices, when the user dismisses the notice, it is permanently dismissed. If you
+want
+to reset the dismissed notice(s), there are a couple methods available.
+
+### `resetNoticeForUser($notificationId, $userId)`
+
+Reset a specific notification for a user.
+
+Parameters:
+
+1. `string $notificationId` - The unique identifier for the notice
+2. `int $userId` - The user ID to reset the notice for
+
+```php
+use StellarWP\AdminNotices\AdminNotices;
+
+AdminNotices::resetNoticeForUser('my_notice', get_current_user_id());
+```
+
+### `resetAllNoticesForUser($userId)`
+
+Reset all dismissed notices for a user.
+
+Parameters:
+
+1. `int $userId` - The user ID to reset all notices for
+
+```php
+use StellarWP\AdminNotices\AdminNotices;
+
+AdminNotices::resetAllNoticesForUser(get_current_user_id());
+```
