@@ -51,6 +51,10 @@ class RenderAdminNotice
             $classes[] = 'is-dismissible';
         }
 
+        if ($this->notice->usesAlternateStyles()) {
+            $classes[] = 'notice-alt';
+        }
+
         return implode(' ', $classes);
     }
 }

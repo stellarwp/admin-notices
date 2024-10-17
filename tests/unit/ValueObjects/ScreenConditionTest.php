@@ -20,7 +20,7 @@ class ScreenConditionTest extends TestCase
     /**
      * @covers ::isRegex
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testIsRegex(): void
     {
@@ -44,7 +44,7 @@ class ScreenConditionTest extends TestCase
     /**
      * @covers ::getCondition
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testGetCondition(): void
     {
@@ -53,7 +53,7 @@ class ScreenConditionTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function testShouldThrowExceptionWithNonStringOrArray(): void
     {
@@ -62,7 +62,7 @@ class ScreenConditionTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function testShouldThrowExceptionWithNonAssociativeArray(): void
     {
@@ -71,7 +71,7 @@ class ScreenConditionTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function testShouldThrowExceptionForInvalidWPScreenProperties(): void
     {
