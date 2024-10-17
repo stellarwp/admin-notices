@@ -56,7 +56,7 @@ class RenderAdminNotice
             $classes[] = 'inline';
         }
 
-        if ($this->notice->usesAlternateStyles()) {
+        if ($notice->usesAlternateStyles()) {
             $classes[] = 'notice-alt';
         }
 
