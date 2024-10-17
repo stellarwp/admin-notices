@@ -9,7 +9,7 @@ use StellarWP\AdminNotices\Tests\Support\Helper\TestCase;
 class RenderAdminNoticeTest extends TestCase
 {
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function testShouldRenderNoticeWithoutWrapper(): void
     {
@@ -25,7 +25,7 @@ class RenderAdminNoticeTest extends TestCase
     /**
      * Tests the wrapper and that the default urgency is info
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testShouldRenderNoticeInWrapper(): void
     {
@@ -42,7 +42,7 @@ class RenderAdminNoticeTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function testShouldIncludeDismissibleClass(): void
     {
@@ -59,7 +59,7 @@ class RenderAdminNoticeTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function testShouldIncludeAutoParagraphs(): void
     {
@@ -77,7 +77,7 @@ class RenderAdminNoticeTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function testShouldRenderCallbackOutput(): void
     {

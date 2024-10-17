@@ -16,7 +16,7 @@ class NoticeUrgencyTest extends TestCase
 {
     /**
      * @covers ::info
-     * @unreleased
+     * @since 1.0.0
      */
     public function testInfo(): void
     {
@@ -25,7 +25,7 @@ class NoticeUrgencyTest extends TestCase
 
     /**
      * @covers ::warning
-     * @unreleased
+     * @since 1.0.0
      */
     public function testWarning(): void
     {
@@ -34,7 +34,7 @@ class NoticeUrgencyTest extends TestCase
 
     /**
      * @covers ::error
-     * @unreleased
+     * @since 1.0.0
      */
     public function testError(): void
     {
@@ -43,7 +43,7 @@ class NoticeUrgencyTest extends TestCase
 
     /**
      * @covers ::success
-     * @unreleased
+     * @since 1.0.0
      */
     public function testSuccess(): void
     {
@@ -52,7 +52,7 @@ class NoticeUrgencyTest extends TestCase
 
     /**
      * @covers ::__toString
-     * @unreleased
+     * @since 1.0.0
      */
     public function testToString(): void
     {
@@ -63,7 +63,7 @@ class NoticeUrgencyTest extends TestCase
      * @covers ::__construct
      * @dataProvider constructorTestDataProvider
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testConstructorValidation($value, $shouldPass): void
     {
@@ -76,7 +76,7 @@ class NoticeUrgencyTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function constructorTestDataProvider(): array
     {

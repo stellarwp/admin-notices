@@ -21,7 +21,7 @@ class DisplayNoticesInAdminTest extends TestCase
     protected $originalServer;
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     protected function setUp(): void
     {
@@ -30,7 +30,7 @@ class DisplayNoticesInAdminTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     protected function tearDown(): void
     {
@@ -39,7 +39,7 @@ class DisplayNoticesInAdminTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function testShouldEchoNothingWithNoNotices(): void
     {
@@ -50,7 +50,7 @@ class DisplayNoticesInAdminTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function testShouldAcceptMultipleNotices(): void
     {
@@ -66,7 +66,7 @@ class DisplayNoticesInAdminTest extends TestCase
      * @covers ::passesDateLimits
      * @dataProvider passDateLimitsDataProvider
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testPassesDateLimits(AdminNotice $notice, bool $shouldPass): void
     {
@@ -104,7 +104,7 @@ class DisplayNoticesInAdminTest extends TestCase
      * @dataProvider passWhenCallbackDataProvider
      * @covers ::passesWhenCallback
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testPassesWhenCallback(AdminNotice $notice, bool $shouldPass): void
     {
@@ -120,7 +120,7 @@ class DisplayNoticesInAdminTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 1.0.0
      */
     public function passWhenCallbackDataProvider(): array
     {
@@ -145,7 +145,7 @@ class DisplayNoticesInAdminTest extends TestCase
      * @dataProvider passUserCapabilitiesDataProvider
      * @covers ::passesUserCapabilities
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testPassesUserCapabilities(AdminNotice $notice, bool $shouldPass): void
     {
@@ -241,7 +241,7 @@ class DisplayNoticesInAdminTest extends TestCase
     /**
      * Produces a simple mock with predictable output.
      *
-     * @unreleased
+     * @since 1.0.0
      */
     private function getSimpleMockNotice($output): AdminNotice
     {

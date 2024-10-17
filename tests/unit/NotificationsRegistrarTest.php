@@ -15,7 +15,7 @@ class NotificationsRegistrarTest extends TestCase
      * @covers ::registerNotice
      * @covers ::getNotices
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testRegisterNotice(): void
     {
@@ -29,7 +29,7 @@ class NotificationsRegistrarTest extends TestCase
     /**
      * @covers ::unregisterNotice
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testUnregisterNotice(): void
     {

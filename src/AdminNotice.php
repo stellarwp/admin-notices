@@ -63,6 +63,11 @@ class AdminNotice
     /**
      * @var bool
      */
+    protected $alternateStyles = false;
+
+    /**
+     * @var bool
+     */
     protected $withWrapper = true;
 
     /**
@@ -238,24 +243,78 @@ class AdminNotice
         return $this;
     }
 
+    /**
+     * Alias for setting the urgency to info
+     *
+     * @since 1.1.0
+     */
     public function asInfo(): self
     {
         return $this->urgency(NoticeUrgency::info());
     }
 
+    /**
+     * Alias for setting the urgency to success
+     *
+     * @since 1.1.0
+     */
     public function asSuccess(): self
     {
         return $this->urgency(NoticeUrgency::success());
     }
 
+    /**
+     * Alias for setting the urgency to warning
+     *
+     * @since 1.1.0
+     */
     public function asWarning(): self
     {
         return $this->urgency(NoticeUrgency::warning());
     }
 
+    /**
+     * Alias for setting the urgency to error
+     *
+     * @since 1.1.0
+     */
     public function asError(): self
     {
         return $this->urgency(NoticeUrgency::error());
+    }
+
+    /**
+     * Uses the alternate WP notice styles
+     *
+     * @unreleased
+     */
+    public function alternateStyles(bool $altStyle = true): self
+    {
+        $this->alternateStyles = $altStyle;
+
+        return $this;
+    }
+
+    /**
+     * Uses the standard WP notice styles
+     *
+     * @unreleased
+     */
+    public function standardStyles(): self
+    {
+        $this->alternateStyles = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns whether the notice uses the alternate WP notice styles
+     *
+     * @unreleased
+     */
+    public function usesAlternateStyles(): bool
+    {
+        return $this->alternateStyles;
     }
 
     /**

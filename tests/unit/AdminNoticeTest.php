@@ -20,7 +20,7 @@ class AdminNoticeTest extends TestCase
     /**
      * @covers ::__construct
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testThrowsExceptionWhenRenderIsNotStringOrCallable()
     {
@@ -31,7 +31,7 @@ class AdminNoticeTest extends TestCase
     /**
      * @covers ::ifUserCan
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testIfUserCan(): void
     {
@@ -50,7 +50,7 @@ class AdminNoticeTest extends TestCase
     /**
      * @covers ::ifUserCan
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testIfUserCanShouldThrowExceptionWhenCapabilityIsNotStringOrArray(): void
     {
@@ -62,7 +62,7 @@ class AdminNoticeTest extends TestCase
     /**
      * @covers ::ifUserCan
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testIfUserCanShouldThrowExceptionWhenCapabilityArrayIsMisshaped(): void
     {
@@ -78,7 +78,7 @@ class AdminNoticeTest extends TestCase
      *
      * @dataProvider dateTestProvider
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testAfter($parameter, $assertDate): void
     {
@@ -96,7 +96,7 @@ class AdminNoticeTest extends TestCase
      *
      * @dataProvider dateTestProvider
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testUntil($parameter, $assertDate): void
     {
@@ -110,7 +110,7 @@ class AdminNoticeTest extends TestCase
     /**
      * @covers ::between
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testBetween(): void
     {
@@ -136,7 +136,7 @@ class AdminNoticeTest extends TestCase
      * @covers ::when
      * @covers ::getWhenCallback
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testWhen(): void
     {
@@ -153,7 +153,7 @@ class AdminNoticeTest extends TestCase
      * @covers ::on
      * @covers ::getOnConditions
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testOn(): void
     {
@@ -169,7 +169,7 @@ class AdminNoticeTest extends TestCase
      * @covers ::withoutAutoParagraph
      * @covers ::shouldAutoParagraph
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testAutoParagraph(): void
     {
@@ -200,7 +200,7 @@ class AdminNoticeTest extends TestCase
      * @covers ::urgency
      * @covers ::getUrgency
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testUrgency(): void
     {
@@ -281,7 +281,7 @@ class AdminNoticeTest extends TestCase
      * @covers ::notDismissible
      * @covers ::isDismissible
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testDismissible(): void
     {
@@ -311,7 +311,7 @@ class AdminNoticeTest extends TestCase
     /**
      * @covers ::getRenderTextOrCallback
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testGetRenderTextOrCallback(): void
     {
@@ -328,7 +328,7 @@ class AdminNoticeTest extends TestCase
     /**
      * @covers ::getRenderedContent
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testRenderedContent(): void
     {
@@ -351,7 +351,7 @@ class AdminNoticeTest extends TestCase
     /**
      * @covers ::getUserCapabilities
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testGetUserCapabilities(): void
     {
@@ -369,7 +369,7 @@ class AdminNoticeTest extends TestCase
     /**
      * @covers ::getAfterDate
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testGetAfterDate(): void
     {
@@ -386,7 +386,7 @@ class AdminNoticeTest extends TestCase
     /**
      * @covers ::getUntilDate
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testGetUntilDate(): void
     {
@@ -403,7 +403,7 @@ class AdminNoticeTest extends TestCase
     /**
      * @covers ::getWhenCallback
      *
-     * @unreleased
+     * @since 1.0.0
      */
     public function testGetWhenCallback(): void
     {
@@ -415,5 +415,38 @@ class AdminNoticeTest extends TestCase
         $callback = function () {};
         $notice->when($callback);
         $this->assertSame($callback, $notice->getWhenCallback());
+    }
+
+    /**
+     * @covers ::alternateStyles
+     * @covers ::standardStyles
+     * @covers ::usesAlternateStyles
+     *
+     * @unreleased
+     */
+    public function testAlternateStyles(): void
+    {
+        $notice = new AdminNotice('test_id', 'test');
+
+        // Defaults to false
+        $this->assertFalse($notice->usesAlternateStyles());
+
+        // Method can be set to true
+        $self = $notice->alternateStyles();
+        $this->assertTrue($notice->usesAlternateStyles());
+        $this->assertSame($notice, $self);
+
+        // Method can be explicitly set to false
+        $notice->alternateStyles(false);
+        $this->assertFalse($notice->usesAlternateStyles());
+
+        // Method can be set to true
+        $notice->alternateStyles(true);
+        $this->assertTrue($notice->usesAlternateStyles());
+
+        // standardStyles is an alias for alternateStyles(false)
+        $self = $notice->standardStyles();
+        $this->assertFalse($notice->usesAlternateStyles());
+        $this->assertSame($notice, $self);
     }
 }
