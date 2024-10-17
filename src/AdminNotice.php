@@ -76,6 +76,11 @@ class AdminNotice
     protected $dismissible = false;
 
     /**
+     * @var bool
+     */
+    protected $inline = false;
+
+    /**
      * @since 1.0.0
      *
      * @param string|callable $renderTextOrCallback
@@ -332,6 +337,40 @@ class AdminNotice
     public function withoutWrapper(): self
     {
         $this->withWrapper = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns whether the notice is inline
+     *
+     * @unreleased
+     */
+    public function isInline(): bool
+    {
+        return $this->inline;
+    }
+
+    /**
+     * Sets the notice to be inline
+     *
+     * @unreleased
+     */
+    public function inline(bool $inline = true): self
+    {
+        $this->inline = $inline;
+
+        return $this;
+    }
+
+    /**
+     * Sets the notice to be not inline
+     *
+     * @unreleased
+     */
+    public function notInline(): self
+    {
+        $this->inline = false;
 
         return $this;
     }

@@ -43,7 +43,7 @@ class DisplayNoticesInAdminTest extends TestCase
      */
     public function testShouldEchoNothingWithNoNotices(): void
     {
-        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
 
         $this->expectOutputString('');
         $displayNoticesInAdmin();
@@ -54,7 +54,7 @@ class DisplayNoticesInAdminTest extends TestCase
      */
     public function testShouldAcceptMultipleNotices(): void
     {
-        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
         $notice1 = $this->getSimpleMockNotice('foo');
         $notice2 = $this->getSimpleMockNotice('bar');
 
@@ -70,7 +70,7 @@ class DisplayNoticesInAdminTest extends TestCase
      */
     public function testPassesDateLimits(AdminNotice $notice, bool $shouldPass): void
     {
-        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
 
         if ($shouldPass) {
             $this->expectOutputString('foo');
@@ -108,7 +108,7 @@ class DisplayNoticesInAdminTest extends TestCase
      */
     public function testPassesWhenCallback(AdminNotice $notice, bool $shouldPass): void
     {
-        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
 
         if ($shouldPass) {
             $this->expectOutputString('foo');
@@ -149,7 +149,7 @@ class DisplayNoticesInAdminTest extends TestCase
      */
     public function testPassesUserCapabilities(AdminNotice $notice, bool $shouldPass): void
     {
-        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
 
         if ($shouldPass) {
             $this->expectOutputString('foo');
@@ -195,7 +195,7 @@ class DisplayNoticesInAdminTest extends TestCase
 
     public function testShouldPassScreenConditionsWhenThereAreNoConditions(): void
     {
-        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
         $notice = $this->getSimpleMockNotice('foo');
 
         $this->expectOutputString('foo');
@@ -206,7 +206,7 @@ class DisplayNoticesInAdminTest extends TestCase
     {
         $_SERVER['REQUEST_URI'] = 'http://example.com/wp-admin/dashboard.php';
 
-        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
         $notice = $this->getSimpleMockNotice('foo')->on('~Dashboard~i'); // check regex flags, too
 
         $this->expectOutputString('foo');
@@ -217,7 +217,7 @@ class DisplayNoticesInAdminTest extends TestCase
     {
         $_SERVER['REQUEST_URI'] = 'http://example.com/wp-admin/dashboard.php';
 
-        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
         $notice = $this->getSimpleMockNotice('foo')->on('dashboard');
 
         $this->expectOutputString('foo');
@@ -231,7 +231,7 @@ class DisplayNoticesInAdminTest extends TestCase
         $this->set_fn_return('get_current_screen', (object)['base' => 'dashboard']);
 
         // mock get_current_screen() global function
-        $displayNoticesInAdmin = new DisplayNoticesInAdmin();
+        $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
         $notice = $this->getSimpleMockNotice('foo')->on(['base' => 'dashboard']);
 
         $this->expectOutputString('foo');

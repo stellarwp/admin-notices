@@ -245,6 +245,38 @@ class AdminNoticeTest extends TestCase
     }
 
     /**
+     * @covers ::inline
+     * @covers ::notInline
+     * @covers ::isInline
+     *
+     * @unreleased
+     */
+    public function testInline(): void
+    {
+        // Defaults to false
+        $notice = new AdminNotice('test_id', 'test');
+        $this->assertFalse($notice->isInline());
+
+        // Method defaults to true
+        $self = $notice->inline();
+        $this->assertTrue($notice->isInline());
+        $this->assertSame($notice, $self);
+
+        // Method can be explicitly set to false
+        $notice->inline(false);
+        $this->assertFalse($notice->isInline());
+
+        // Method can be set to true
+        $notice->inline(true);
+        $this->assertTrue($notice->isInline());
+
+        // notInline is an alias for inline(false)
+        $self = $notice->notInline();
+        $this->assertFalse($notice->isInline());
+        $this->assertSame($notice, $self);
+    }
+
+    /**
      * @covers ::dismissible
      * @covers ::notDismissible
      * @covers ::isDismissible
