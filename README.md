@@ -366,6 +366,58 @@ $notice = AdminNotices::show('my_notice', 'This is a notice')
     ->urgency($urgency);
 ```
 
+### `alternateStyles($useAlternate)`, `standardStyles()`
+
+**Default:** false
+
+Sets whether the notice should use the alternate WordPress notice styles. **Only works when the
+wrapper is enabled.**
+
+Parameters:
+
+1. `bool $useAlternate = true` - Whether the notice should use the alternate WordPress notice
+   styles
+
+```php
+use StellarWP\AdminNotices\AdminNotices;
+
+// Use the alternate WordPress notice styles
+$notice = AdminNotices::show('my_notice', 'This is a notice')
+    ->alternateStyles();
+
+// Use the standard WordPress notice styles, only necessary to revert back
+$notice = AdminNotices::show('my_notice', 'This is a notice')
+    ->alternateStyles()
+    ->standardStyles();
+```
+
+### `inline($inline)`, `notInline()`
+
+**Default:** false
+
+Sets whether the notice should be displayed in the WP "inline" location, at the top of the admin
+page. **Only works when the wrapper is enabled.**
+
+Parameters:
+
+1. `bool $inline = true` - Whether the notice should be displayed inline
+
+```php
+use StellarWP\AdminNotices\AdminNotices;
+
+// Display the notice inline
+$notice = AdminNotices::show('my_notice', 'This is a notice')
+    ->inline();
+
+// Display the notice in the standard location
+$notice = AdminNotices::show('my_notice', 'This is a notice')
+    ->inline(false);
+
+// Also has an alias for readability
+$notice = AdminNotices::show('my_notice', 'This is a notice')
+    ->notInline();
+```
+
 ### `dismissible($dismissible)`, `notDismissible()`
 
 **Default:** false
