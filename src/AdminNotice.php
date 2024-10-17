@@ -286,7 +286,7 @@ class AdminNotice
     /**
      * Uses the alternate WP notice styles
      *
-     * @unreleased
+     * @since 1.2.0
      */
     public function alternateStyles(bool $altStyle = true): self
     {
@@ -298,7 +298,7 @@ class AdminNotice
     /**
      * Uses the standard WP notice styles
      *
-     * @unreleased
+     * @since 1.2.0
      */
     public function standardStyles(): self
     {
@@ -310,7 +310,7 @@ class AdminNotice
     /**
      * Returns whether the notice uses the alternate WP notice styles
      *
-     * @unreleased
+     * @since 1.2.0
      */
     public function usesAlternateStyles(): bool
     {
@@ -344,7 +344,7 @@ class AdminNotice
     /**
      * Returns whether the notice is inline
      *
-     * @unreleased
+     * @since 1.2.0
      */
     public function isInline(): bool
     {
@@ -354,7 +354,7 @@ class AdminNotice
     /**
      * Sets the notice to be inline
      *
-     * @unreleased
+     * @since 1.2.0
      */
     public function inline(bool $inline = true): self
     {
@@ -366,7 +366,7 @@ class AdminNotice
     /**
      * Sets the notice to be not inline
      *
-     * @unreleased
+     * @since 1.2.0
      */
     public function notInline(): self
     {

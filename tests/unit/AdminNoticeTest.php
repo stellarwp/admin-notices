@@ -249,7 +249,7 @@ class AdminNoticeTest extends TestCase
      * @covers ::notInline
      * @covers ::isInline
      *
-     * @unreleased
+     * @since 1.2.0
      */
     public function testInline(): void
     {
@@ -422,7 +422,7 @@ class AdminNoticeTest extends TestCase
      * @covers ::standardStyles
      * @covers ::usesAlternateStyles
      *
-     * @unreleased
+     * @since 1.2.0
      */
     public function testAlternateStyles(): void
     {
