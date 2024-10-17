@@ -285,7 +285,7 @@ class AdminNotice
     /**
      * Returns whether the notice is inline
      *
-     * @since TBD
+     * @unreleased
      */
     public function isInline(): bool
     {
@@ -295,7 +295,7 @@ class AdminNotice
     /**
      * Sets the notice to be inline
      *
-     * @since TBD
+     * @unreleased
      */
     public function inline(bool $inline = true): self
     {
@@ -307,7 +307,7 @@ class AdminNotice
     /**
      * Sets the notice to be not inline
      *
-     * @since TBD
+     * @unreleased
      */
     public function notInline(): self
     {
