@@ -52,7 +52,7 @@ class RenderAdminNotice
             $classes[] = "is-dismissible";
         }
 
-        if ($this->notice->isInline()) {
+        if ($notice->isInline()) {
             $classes[] = 'inline';
         }
 
