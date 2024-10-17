@@ -421,6 +421,8 @@ class AdminNoticeTest extends TestCase
      * @covers ::alternateStyles
      * @covers ::standardStyles
      * @covers ::usesAlternateStyles
+     *
+     * @unreleased
      */
     public function testAlternateStyles(): void
     {
