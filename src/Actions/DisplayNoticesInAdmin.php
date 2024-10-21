@@ -141,7 +141,7 @@ class DisplayNoticesInAdmin
                 }
             } elseif (is_string($condition)) {
                 // do a string comparison on the current url
-                if (str_contains($currentUrl, $condition)) {
+                if (strpos($currentUrl, $condition) !== false) {
                     return true;
                 }
             } else {
