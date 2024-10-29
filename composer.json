@@ -1,6 +1,5 @@
 {
     "name": "stellarwp/admin-notices",
-    "version": "1.2.1",
     "description": "A handy package for easily displaying admin notices in WordPress with simple to complex visibility conditions",
     "minimum-stability": "stable",
     "license": "MIT",
