@@ -98,7 +98,7 @@ class RenderAdminNotice
         $tags->set_attribute("data-stellarwp-{$this->namespace}-notice-id", $notice->getId());
 
         if ($notice->getLocation()) {
-            $tags->set_attribute("data-stellarwp-{$this->namespace}-location", $notice->getLocation());
+            $tags->set_attribute("data-stellarwp-{$this->namespace}-location", (string)$notice->getLocation());
         }
 
         return $tags->__toString();
