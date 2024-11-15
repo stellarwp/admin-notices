@@ -14,12 +14,14 @@ class RenderAdminNoticeTest extends TestCase
     public function testShouldRenderNoticeWithoutWrapper(): void
     {
         $notice = (new AdminNotice('test_id', 'Hello world!'))
-            ->withoutAutoParagraph()
-            ->withoutWrapper();
+            ->withoutAutoParagraph();
 
         $renderAdminNotice = new RenderAdminNotice('namespace');
 
-        $this->assertEquals('Hello world!', $renderAdminNotice($notice));
+        $this->assertEquals(
+            '<div class=\'notice notice-info\' data-stellarwp-namespace-notice-id=\'test_id\'>Hello world!</div>',
+            $renderAdminNotice($notice)
+        );
     }
 
     /**

@@ -71,7 +71,7 @@ class RenderAdminNotice
             $classes[] = "is-dismissible";
         }
 
-        if ($notice->getLocation()->isInline()) {
+        if ($notice->getLocation() && $notice->getLocation()->isInline()) {
             $classes[] = 'inline';
         }
 

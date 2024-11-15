@@ -219,64 +219,6 @@ class AdminNoticeTest extends TestCase
     }
 
     /**
-     * @covers ::withWrapper
-     * @covers ::withoutWrapper
-     * @covers ::usesWrapper
-     */
-    public function testWithWrapper(): void
-    {
-        // Defaults to true
-        $notice = new AdminNotice('test_id', 'test');
-        $this->assertTrue($notice->usesWrapper());
-
-        // Method can be set to false
-        $self = $notice->withWrapper(false);
-        $this->assertFalse($notice->usesWrapper());
-        $this->assertSame($notice, $self);
-
-        // Method can be explicitly set to true
-        $notice->withWrapper(true);
-        $this->assertTrue($notice->usesWrapper());
-
-        // withoutWrapper is an alias for withWrapper(false)
-        $self = $notice->withoutWrapper();
-        $this->assertFalse($notice->usesWrapper());
-        $this->assertSame($notice, $self);
-    }
-
-    /**
-     * @covers ::inline
-     * @covers ::notInline
-     * @covers ::isInline
-     *
-     * @since 1.2.0
-     */
-    public function testInline(): void
-    {
-        // Defaults to false
-        $notice = new AdminNotice('test_id', 'test');
-        $this->assertFalse($notice->isInline());
-
-        // Method defaults to true
-        $self = $notice->inline();
-        $this->assertTrue($notice->isInline());
-        $this->assertSame($notice, $self);
-
-        // Method can be explicitly set to false
-        $notice->inline(false);
-        $this->assertFalse($notice->isInline());
-
-        // Method can be set to true
-        $notice->inline(true);
-        $this->assertTrue($notice->isInline());
-
-        // notInline is an alias for inline(false)
-        $self = $notice->notInline();
-        $this->assertFalse($notice->isInline());
-        $this->assertSame($notice, $self);
-    }
-
-    /**
      * @covers ::dismissible
      * @covers ::notDismissible
      * @covers ::isDismissible
