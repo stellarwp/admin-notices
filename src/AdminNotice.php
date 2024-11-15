@@ -334,23 +334,26 @@ class AdminNotice
     }
 
     /**
-     * Returns whether the notice is inline
+     * Sets the notice to be inline
      *
+     * @unreleased removed parameter in favor of new location parameter
      * @since 1.2.0
      */
-    public function isInline(): bool
+    public function inline(): self
     {
-        return $this->location->isInline();
+        $this->location = NoticeLocation::inline();
+
+        return $this;
     }
 
     /**
-     * Sets the notice to be inline
+     * Prevents the notice from being moved from the place it's rendered
      *
-     * @since 1.2.0
+     * @unreleased
      */
-    public function inline(bool $inline = true): self
+    public function inPlace(): self
     {
-        $this->location = NoticeLocation::inline();
+        $this->location = null;
 
         return $this;
     }

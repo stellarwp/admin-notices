@@ -25,26 +25,36 @@
     };
 
     // Begin notice dismissal code
-    const noticeIdAttribute = `data-stellarwp-${namespace}-notice-id`;
-    const $notices = $(`[${noticeIdAttribute}]`);
+    const noticeIdAttribute = `stellarwp-${namespace}-notice-id`;
+    const dataNoticeIdAttribute = `data-${noticeIdAttribute}`;
+    const $notices = $(`[${dataNoticeIdAttribute}]`);
 
     // Mark standard notices as closed
     $notices.on('click', '.notice-dismiss', function () {
         const $this = $(this);
-        const noticeId = $this.closest(`[${noticeIdAttribute}]`).data(`stellarwp-${namespace}-notice-id`);
+        const noticeId = $this.closest(`[${dataNoticeIdAttribute}]`).data(`stellarwp-${namespace}-notice-id`);
 
         window.stellarwp.adminNotices[namespace].dismissNotice(noticeId);
     });
 
     // Mark and close custom notice closes
-    $notices.on('click', `.js-stellarwp-${namespace}-close-notice`, function () {
+    const closeAttribute = `stellarwp-${namespace}-close-notice`;
+    const dataCloseAttribute = `data-${closeAttribute}`;
+    const closeBehaviorAttribute = `stellarwp-${namespace}-close-notice-behavior`;
+
+    $(`[${dataCloseAttribute}]`).on('click', function () {
         const $this = $(this);
-        const $notice = $this.closest(`[${noticeIdAttribute}]`);
-        const noticeId = $notice.data(`stellarwp-${namespace}-notice-id`);
+        const noticeId = $this.data(closeAttribute);
+        const $notice = $(`[${dataNoticeIdAttribute}="${noticeId}"]`);
+
+        if (!$notice.length) {
+            console.log(`Unable to find and close notice with ID: ${noticeId}`);
+            return;
+        }
 
         window.stellarwp.adminNotices[namespace].dismissNotice(noticeId);
 
-        if ($this.hasClass(`js-stellarwp-${namespace}-close-notice--hide`)) {
+        if ($this.data(closeBehaviorAttribute) === 'hide') {
             $notice.fadeOut();
         }
     });
