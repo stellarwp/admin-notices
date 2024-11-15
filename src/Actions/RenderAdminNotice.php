@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace StellarWP\AdminNotices\Actions;
 
 use StellarWP\AdminNotices\AdminNotice;
+use StellarWP\AdminNotices\DataTransferObjects\NoticeElementProperties;
 use StellarWP\AdminNotices\Traits\HasNamespace;
 
 /**
@@ -26,15 +27,36 @@ class RenderAdminNotice
      */
     public function __invoke(AdminNotice $notice): string
     {
-        if (!$notice->usesWrapper()) {
-            return $notice->getRenderedContent();
+        $elementProperties = new NoticeElementProperties($notice, $this->namespace);
+        $renderTextOrCallback = $notice->getRenderTextOrCallback();
+
+        if (is_callable($renderTextOrCallback)) {
+            $content = $renderTextOrCallback($notice, $elementProperties);
+        } else {
+            $content = $renderTextOrCallback;
+        }
+
+        if (!$notice->isCustom() && $notice->shouldAutoParagraph()) {
+            $content = wpautop($content);
+        }
+
+        if ($notice->isCustom()) {
+            $locationAttribute = $notice->getLocation()
+                ? $elementProperties->customLocationAttribute
+                : '';
+
+            return sprintf(
+                "<div %s %s>%s</div>",
+                $elementProperties->idAttribute,
+                $locationAttribute,
+                $content
+            );
         }
 
         return sprintf(
-            "<div class='%s' data-stellarwp-$this->namespace-notice-id='%s'>%s</div>",
-            esc_attr($this->getWrapperClasses($notice)),
-            $notice->getId(),
-            $notice->getRenderedContent()
+            "<div class='%s' $elementProperties->idAttribute>%s</div>",
+            esc_attr($this->getStandardWrapperClasses($notice)),
+            $content
         );
     }
 
@@ -44,9 +66,12 @@ class RenderAdminNotice
      * @since 1.1.0 notice is passed instead of accessed as a property
      * @since 1.0.0
      */
-    private function getWrapperClasses(AdminNotice $notice): string
+    private function getStandardWrapperClasses(AdminNotice $notice): string
     {
-        $classes = ['notice', 'notice-' . $notice->getUrgency()];
+        $classes = [
+            'notice',
+            "notice-{$notice->getUrgency()}",
+        ];
 
         if ($notice->isDismissible()) {
             $classes[] = "is-dismissible";
@@ -58,6 +83,19 @@ class RenderAdminNotice
 
         if ($notice->usesAlternateStyles()) {
             $classes[] = 'notice-alt';
+        }
+
+        return implode(' ', $classes);
+    }
+
+    private function getCustomWrapperClasses(AdminNotice $notice, NoticeElementProperties $elementProperties): string
+    {
+        $classes = [
+            $elementProperties->customNoticeClass,
+        ];
+
+        if ($notice->getLocation()) {
+            $classes[] = $elementProperties->customLocationClass;
         }
 
         return implode(' ', $classes);
