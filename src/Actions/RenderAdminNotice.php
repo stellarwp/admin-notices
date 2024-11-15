@@ -8,6 +8,7 @@ namespace StellarWP\AdminNotices\Actions;
 use StellarWP\AdminNotices\AdminNotice;
 use StellarWP\AdminNotices\DataTransferObjects\NoticeElementProperties;
 use StellarWP\AdminNotices\Traits\HasNamespace;
+use WP_HTML_Tag_Processor;
 
 /**
  * Renders the admin notice based on the configuration of the notice.
@@ -22,6 +23,7 @@ class RenderAdminNotice
     /**
      * Renders the admin notice
      *
+     * @unreleased custom notices have a completely different render flow
      * @since 1.1.0 added namespacing and notice is passed to the __invoke method
      * @since 1.0.0
      */
@@ -41,16 +43,7 @@ class RenderAdminNotice
         }
 
         if ($notice->isCustom()) {
-            $locationAttribute = $notice->getLocation()
-                ? $elementProperties->customLocationAttribute
-                : '';
-
-            return sprintf(
-                "<div %s %s>%s</div>",
-                $elementProperties->idAttribute,
-                $locationAttribute,
-                $content
-            );
+            return $this->applyCustomAttributesToContent($content, $notice);
         }
 
         return sprintf(
@@ -63,6 +56,7 @@ class RenderAdminNotice
     /**
      * Generates the classes for the standard WordPress notice wrapper.
      *
+     * @unreleased notice is assumed to be standard only
      * @since 1.1.0 notice is passed instead of accessed as a property
      * @since 1.0.0
      */
@@ -88,16 +82,25 @@ class RenderAdminNotice
         return implode(' ', $classes);
     }
 
-    private function getCustomWrapperClasses(AdminNotice $notice, NoticeElementProperties $elementProperties): string
-    {
-        $classes = [
-            $elementProperties->customNoticeClass,
-        ];
+    /**
+     * Apply the needed custom attributes to the content.
+     *
+     * @unreleased
+     */
+    private function applyCustomAttributesToContent(
+        string $content,
+        AdminNotice $notice
+    ): string {
+        $tags = new WP_HTML_Tag_Processor($content);
+
+        $tags->next_tag();
+
+        $tags->set_attribute("data-stellarwp-{$this->namespace}-notice-id", $notice->getId());
 
         if ($notice->getLocation()) {
-            $classes[] = $elementProperties->customLocationClass;
+            $tags->set_attribute("data-stellarwp-{$this->namespace}-location", $notice->getLocation());
         }
 
-        return implode(' ', $classes);
+        return $tags->__toString();
     }
 }
