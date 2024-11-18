@@ -38,10 +38,6 @@ class RenderAdminNotice
             $content = $renderTextOrCallback;
         }
 
-        if (!$notice->isCustom() && $notice->shouldAutoParagraph()) {
-            $content = wpautop($content);
-        }
-
         if ($notice->isCustom()) {
             return $this->applyCustomAttributesToContent($content, $notice);
         }
@@ -49,7 +45,7 @@ class RenderAdminNotice
         return sprintf(
             "<div class='%s' $elementProperties->idAttribute>%s</div>",
             esc_attr($this->getStandardWrapperClasses($notice)),
-            $content
+            $notice->shouldAutoParagraph() ? wpautop($content) : $content
         );
     }
 
