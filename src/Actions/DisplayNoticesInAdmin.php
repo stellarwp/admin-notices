@@ -141,7 +141,7 @@ class DisplayNoticesInAdmin
                 }
             } elseif (is_string($condition)) {
                 // do a string comparison on the current url
-                if (str_contains($currentUrl, $condition)) {
+                if (strpos($currentUrl, $condition) !== false) {
                     return true;
                 }
             } else {
@@ -165,7 +165,9 @@ class DisplayNoticesInAdmin
      */
     private function passesDismissedConditions(AdminNotice $notice): bool
     {
-        $userPreferences = get_user_meta(get_current_user_id(), 'wp_persisted_preferences', true);
+        global $wpdb;
+
+        $userPreferences = get_user_meta(get_current_user_id(), $wpdb->get_blog_prefix() . 'persisted_preferences', true);
 
         $key = "stellarwp/admin-notices/$this->namespace";
         if (!is_array($userPreferences) || empty($userPreferences[$key])) {
