@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use InvalidArgumentException;
 use StellarWP\AdminNotices\AdminNotice;
 use StellarWP\AdminNotices\Tests\Support\Helper\TestCase;
+use StellarWP\AdminNotices\ValueObjects\NoticeLocation;
 use StellarWP\AdminNotices\ValueObjects\NoticeUrgency;
 use StellarWP\AdminNotices\ValueObjects\ScreenCondition;
 use StellarWP\AdminNotices\ValueObjects\UserCapability;
@@ -389,6 +390,48 @@ class AdminNoticeTest extends TestCase
         // standardStyles is an alias for alternateStyles(false)
         $self = $notice->standardStyles();
         $this->assertFalse($notice->usesAlternateStyles());
+        $this->assertSame($notice, $self);
+    }
+
+    /**
+     * @covers ::custom
+     * @covers ::isCustom
+     *
+     * @unreleased
+     */
+    public function testCustom(): void
+    {
+        $notice = new AdminNotice('test_id', 'test');
+
+        // Defaults to false
+        $this->assertFalse($notice->isCustom());
+
+        // Method can be set to true
+        $self = $notice->custom();
+        $this->assertTrue($notice->isCustom());
+        $this->assertSame($notice, $self);
+
+        // Method can be explicitly set to false
+        $notice->custom(false);
+        $this->assertFalse($notice->isCustom());
+    }
+
+    /**
+     * @covers ::location
+     * @covers ::getLocation
+     *
+     * @unreleased
+     */
+    public function testLocation(): void
+    {
+        $notice = new AdminNotice('test_id', 'test');
+
+        // Defaults to standard
+        $this->assertTrue($notice->getLocation()->isStandard());
+
+        // Returns the location
+        $self = $notice->location(NoticeLocation::inline());
+        $this->assertTrue($notice->getLocation()->isInline());
         $this->assertSame($notice, $self);
     }
 }
