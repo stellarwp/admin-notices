@@ -228,7 +228,7 @@ class DisplayNoticesInAdminTest extends TestCase
     {
         $_SERVER['REQUEST_URI'] = 'http://example.com/wp-admin/dashboard.php';
 
-        $this->set_fn_return('get_current_screen', (object)['base' => 'dashboard']);
+        $this->setFunctionReturn('get_current_screen', (object)['base' => 'dashboard']);
 
         // mock get_current_screen() global function
         $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
