@@ -74,7 +74,8 @@ Parameters:
 1. `string $id` - A unique identifier for the notice.
 2. `string|callback $message` - The message to display. This can be a string or a callback that
    returns a string. The callback receives an instance of the `AdminNotice` class and an instance of
-   the `NoticeElementProperties` class — the latter of which is useful for custom notices.
+   the [NoticeElementProperties](src/DataTransferObjects/NoticeElementProperties.php) class — the
+   latter of which is useful for custom notices.
 
 ```php
 use StellarWP\AdminNotices\AdminNotices;
@@ -483,10 +484,11 @@ AdminNotices::show('my_notice', $renderCallback)
     ->custom();
 ```
 
-The `$elements` object provides a `customCloserAttributes` method that returns the necessary
-attributes to be place on the dismiss button. This method will add the necessary attributes to
-dismiss the notice when clicked. This will permanently dismiss the notice, and fade out the notice,
-similar to the standard WordPress dismissible notices.
+The [$elements](src/DataTransferObjects/NoticeElementProperties.php) object provides a
+`customCloserAttributes` method that returns the necessary attributes to be place on the dismiss
+button. This method will add the necessary attributes to dismiss the notice when clicked. This will
+permanently dismiss the notice, and fade out the notice, similar to the standard WordPress
+dismissible notices.
 
 If you want the notice to be marked as dismissed, but not fade out, you can pass "clear" to the
 `customerCloserAttributes` method: e.g. `$elements->customCloserAttributes('clear')`.
