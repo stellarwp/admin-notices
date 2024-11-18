@@ -11,24 +11,27 @@ use StellarWP\AdminNotices\AdminNotice;
 class NoticeElementProperties
 {
     /**
-     * @var string
+     * @var string custom namespace for the library instance
      */
     private $namespace;
 
     /**
-     * @var string
+     * @var string id attribute that uniquely identifies the notice
      */
     public $idAttribute;
 
+    /**
+     * @var string attribute to put on an element which closes the notice
+     */
     public $customCloserAttribute;
 
     /**
-     * @var string
+     * @var string attribute for custom notices which specifies the location
      */
     public $customLocationAttribute;
 
     /**
-     * @var string
+     * @var string attributes to be applied to custom notices
      */
     public $customWrapperAttributes;
 
