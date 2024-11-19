@@ -8,10 +8,18 @@ namespace StellarWP\AdminNotices\Actions;
 use StellarWP\AdminNotices\AdminNotice;
 use StellarWP\AdminNotices\Traits\HasNamespace;
 
-class EnqueueScriptsAndStyles
+/**
+ * Checks the given admin notices and enqueues their scripts and styles if they exist and should be rendered.
+ *
+ * @unreleased
+ */
+class EnqueueNoticesScriptsAndStyles
 {
     use HasNamespace;
 
+    /**
+     * @unreleased
+     */
     public function __invoke(AdminNotice ...$notices)
     {
         foreach ($notices as $notice) {

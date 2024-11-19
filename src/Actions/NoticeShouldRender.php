@@ -10,10 +10,18 @@ use DateTimeZone;
 use StellarWP\AdminNotices\AdminNotice;
 use StellarWP\AdminNotices\Traits\HasNamespace;
 
+/**
+ * Checks whether the given notice should be rendered based on the provided conditions.
+ *
+ * @unreleased
+ */
 class NoticeShouldRender
 {
     use HasNamespace;
 
+    /**
+     * @unreleased
+     */
     public function __invoke(AdminNotice $notice): bool
     {
         return $this->passesDismissedConditions($notice)
@@ -26,6 +34,7 @@ class NoticeShouldRender
     /**
      * Checks whether the notice should be displayed based on the provided date limits.
      *
+     * @unreleased moved to the NoticeShouldRender class
      * @since 1.0.0
      */
     private function passesDateLimits(AdminNotice $notice): bool
@@ -50,6 +59,7 @@ class NoticeShouldRender
     /**
      * Checks whether the notice should be displayed based on the provided callback.
      *
+     * @unreleased moved to the NoticeShouldRender class
      * @since 1.0.0
      */
     private function passesWhenCallback(AdminNotice $notice): bool
@@ -67,6 +77,7 @@ class NoticeShouldRender
      * Checks whether user limits were provided and they pass. Only one capability is required to pass, allowing for
      * multiple users have visibility.
      *
+     * @unreleased moved to the NoticeShouldRender class
      * @since 1.0.0
      */
     private function passesUserCapabilities(AdminNotice $notice): bool
@@ -90,6 +101,7 @@ class NoticeShouldRender
      * Checks whether the notice is limited to specific screens and the current screen matches the conditions. Only one
      * screen condition is required to pass, allowing for the notice to appear on multiple screens.
      *
+     * @unreleased moved to the NoticeShouldRender class
      * @since 1.0.0
      */
     private function passesScreenConditions(AdminNotice $notice): bool
@@ -132,6 +144,7 @@ class NoticeShouldRender
     /**
      * Checks whether the notice has been dismissed by the user.
      *
+     * @unreleased moved to the NoticeShouldRender class
      * @since 1.1.0 added namespacing to the preferences key
      * @since 1.0.0
      */

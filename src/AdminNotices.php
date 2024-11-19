@@ -7,7 +7,7 @@ namespace StellarWP\AdminNotices;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 use StellarWP\AdminNotices\Actions\DisplayNoticesInAdmin;
-use StellarWP\AdminNotices\Actions\EnqueueScriptsAndStyles;
+use StellarWP\AdminNotices\Actions\EnqueueNoticesScriptsAndStyles;
 use StellarWP\AdminNotices\Contracts\NotificationsRegistrarInterface;
 
 class AdminNotices
@@ -213,7 +213,7 @@ class AdminNotices
             ['strategy' => 'defer']
         );
 
-        (new EnqueueScriptsAndStyles($namespace))(...self::getNotices());
+        (new EnqueueNoticesScriptsAndStyles($namespace))(...self::getNotices());
     }
 
     /**
