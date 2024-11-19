@@ -493,6 +493,36 @@ dismissible notices.
 If you want the notice to be marked as dismissed, but not fade out, you can pass "clear" to the
 `customerCloserAttributes` method: e.g. `$elements->customCloserAttributes('clear')`.
 
+## Custom scripts & styles
+
+Often times, especially for custom notices, you may want to enqueue custom scripts and styles,
+however they should only be enqueued when the notice is displayed. This can be done by using the
+`enqueueScript` and `enqueueStyle` methods on the notice.
+
+### `enqueueScript($src, $deps = [], $ver = false, $args = [])`
+
+Enqueues a script to be loaded when the notice is displayed, following the same parameters as
+`wp_enqueue_script`. The only difference is that the loading strategy is "defer" by default.
+
+```php
+use StellarWP\AdminNotices\AdminNotices;
+
+$notice = AdminNotices::show('my_notice', 'This is a notice')
+    ->enqueueScript('https://example.com/my-script.js', ['jquery']);
+```
+
+### `enqueueStyle($src, $deps = [], $ver = false, $media = 'all')`
+
+Enqueues a style to be loaded when the notice is displayed, following the same parameters as
+`wp_enqueue_style`.
+
+```php
+use StellarWP\AdminNotices\AdminNotices;
+
+$notice = AdminNotices::show('my_notice', 'This is a notice')
+    ->enqueueStylesheet('https://example.com/my-style.css');
+```
+
 ## Resetting dismissed notices
 
 For dismissible notices, when the user dismisses the notice, it is permanently dismissed. If you
