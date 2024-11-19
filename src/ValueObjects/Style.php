@@ -5,6 +5,11 @@ declare(strict_types=1);
 
 namespace StellarWP\AdminNotices\ValueObjects;
 
+/**
+ * Represents a stylesheet to be enqueued in WordPress
+ *
+ * @unreleased
+ */
 class Style
 {
     /**
@@ -27,6 +32,9 @@ class Style
      */
     private $media;
 
+    /**
+     * @unreleased
+     */
     public function __construct(
         string $source,
         array $dependencies = [],
@@ -39,6 +47,11 @@ class Style
         $this->media = $media;
     }
 
+    /**
+     * Enqueues the stylesheet with WordPress
+     *
+     * @unreleased
+     */
     public function enqueue(string $handle): void
     {
         wp_enqueue_style(

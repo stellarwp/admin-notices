@@ -5,6 +5,11 @@ declare(strict_types=1);
 
 namespace StellarWP\AdminNotices\ValueObjects;
 
+/**
+ * Represents a script that can be enqueued with WordPress
+ *
+ * @unreleased
+ */
 class Script
 {
     /**
@@ -27,6 +32,9 @@ class Script
      */
     private $args;
 
+    /**
+     * @unreleased
+     */
     public function __construct(
         string $source,
         array $dependencies = [],
@@ -39,6 +47,9 @@ class Script
         $this->args = $args;
     }
 
+    /**
+     * @unreleased
+     */
     public function enqueue(string $handle): void
     {
         wp_enqueue_script(
