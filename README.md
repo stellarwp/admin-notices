@@ -520,7 +520,7 @@ Enqueues a style to be loaded when the notice is displayed, following the same p
 use StellarWP\AdminNotices\AdminNotices;
 
 $notice = AdminNotices::show('my_notice', 'This is a notice')
-    ->enqueueStyle('https://example.com/my-style.css');
+    ->enqueueStylesheet('https://example.com/my-style.css');
 ```
 
 ## Resetting dismissed notices

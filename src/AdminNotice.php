@@ -445,7 +445,7 @@ class AdminNotice
     /**
      * @unreleased
      */
-    public function enqueueStyle(
+    public function enqueueStylesheet(
         string $source,
         array $dependencies = [],
         string $version = null,
