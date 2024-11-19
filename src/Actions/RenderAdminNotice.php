@@ -6,7 +6,9 @@ declare(strict_types=1);
 namespace StellarWP\AdminNotices\Actions;
 
 use StellarWP\AdminNotices\AdminNotice;
+use StellarWP\AdminNotices\DataTransferObjects\NoticeElementProperties;
 use StellarWP\AdminNotices\Traits\HasNamespace;
+use WP_HTML_Tag_Processor;
 
 /**
  * Renders the admin notice based on the configuration of the notice.
@@ -21,38 +23,51 @@ class RenderAdminNotice
     /**
      * Renders the admin notice
      *
+     * @unreleased custom notices have a completely different render flow
      * @since 1.1.0 added namespacing and notice is passed to the __invoke method
      * @since 1.0.0
      */
     public function __invoke(AdminNotice $notice): string
     {
-        if (!$notice->usesWrapper()) {
-            return $notice->getRenderedContent();
+        $elementProperties = new NoticeElementProperties($notice, $this->namespace);
+        $renderTextOrCallback = $notice->getRenderTextOrCallback();
+
+        if (is_callable($renderTextOrCallback)) {
+            $content = $renderTextOrCallback($notice, $elementProperties);
+        } else {
+            $content = $renderTextOrCallback;
+        }
+
+        if ($notice->isCustom()) {
+            return $this->applyCustomAttributesToContent($content, $notice);
         }
 
         return sprintf(
-            "<div class='%s' data-stellarwp-$this->namespace-notice-id='%s'>%s</div>",
-            esc_attr($this->getWrapperClasses($notice)),
-            $notice->getId(),
-            $notice->getRenderedContent()
+            "<div class='%s' $elementProperties->idAttribute>%s</div>",
+            esc_attr($this->getStandardWrapperClasses($notice)),
+            $notice->shouldAutoParagraph() ? wpautop($content) : $content
         );
     }
 
     /**
      * Generates the classes for the standard WordPress notice wrapper.
      *
+     * @unreleased notice is assumed to be standard only
      * @since 1.1.0 notice is passed instead of accessed as a property
      * @since 1.0.0
      */
-    private function getWrapperClasses(AdminNotice $notice): string
+    private function getStandardWrapperClasses(AdminNotice $notice): string
     {
-        $classes = ['notice', 'notice-' . $notice->getUrgency()];
+        $classes = [
+            'notice',
+            "notice-{$notice->getUrgency()}",
+        ];
 
         if ($notice->isDismissible()) {
             $classes[] = "is-dismissible";
         }
 
-        if ($notice->isInline()) {
+        if ($notice->getLocation() && $notice->getLocation()->isInline()) {
             $classes[] = 'inline';
         }
 
@@ -61,5 +76,27 @@ class RenderAdminNotice
         }
 
         return implode(' ', $classes);
+    }
+
+    /**
+     * Apply the needed custom attributes to the content.
+     *
+     * @unreleased
+     */
+    private function applyCustomAttributesToContent(
+        string $content,
+        AdminNotice $notice
+    ): string {
+        $tags = new WP_HTML_Tag_Processor($content);
+
+        $tags->next_tag();
+
+        $tags->set_attribute("data-stellarwp-{$this->namespace}-notice-id", $notice->getId());
+
+        if ($notice->getLocation()) {
+            $tags->set_attribute("data-stellarwp-{$this->namespace}-location", (string)$notice->getLocation());
+        }
+
+        return $tags->__toString();
     }
 }

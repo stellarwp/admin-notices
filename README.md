@@ -73,13 +73,17 @@ Parameters:
 
 1. `string $id` - A unique identifier for the notice.
 2. `string|callback $message` - The message to display. This can be a string or a callback that
-   returns a string
+   returns a string. The callback receives an instance of the `AdminNotice` class and an instance of
+   the [NoticeElementProperties](src/DataTransferObjects/NoticeElementProperties.php) class — the
+   latter of which is useful for custom notices.
 
 ```php
 use StellarWP\AdminNotices\AdminNotices;
+use StellarWP\AdminNotices\AdminNotice;
+use \StellarWP\AdminNotices\DataTransferObjects\NoticeElementProperties;
 
 AdminNotices::show('my_notice', 'This is a notice');
-AdminNotices::show('my_notice', function () {
+AdminNotices::show('my_notice', function (AdminNotice $notice, NoticeElementProperties $elements) {
     return 'This is a notice';
 });
 ```
@@ -287,7 +291,7 @@ $notice = AdminNotices::show('my_notice', 'This is a notice')
     });
 ```
 
-## Visual & behavior options
+## Standard Notice Visual & behavior options
 
 ### `autoParagraph($autoParagraph)`, `withoutAutoParagraph()`
 
@@ -314,32 +318,6 @@ $notice = AdminNotices::show('my_notice', 'This is a notice')
 // Also has an alias for readability
 $notice = AdminNotices::show('my_notice', 'This is a notice')
     ->withoutAutoParagraph();
-```
-
-### `withWrapper($with)`, `withoutWrapper()`
-
-**Default:** true
-
-Sets whether the rendered notice should be wrapped in the standard WordPress notice wrapper.
-
-Parameters:
-
-1. `bool $with = true` - Whether to wrap the notice in the standard WordPress notice wrapper
-
-```php
-use StellarWP\AdminNotices\AdminNotices;
-
-// Wrap the notice in the standard WordPress notice wrapper
-$notice = AdminNotices::show('my_notice', 'This is a notice')
-    ->withWrapper();
-
-// Do not wrap the notice in the standard WordPress notice wrapper
-$notice = AdminNotices::show('my_notice', 'This is a notice')
-    ->withWrapper(false);
-
-// Also has an alias for readability
-$notice = AdminNotices::show('my_notice', 'This is a notice')
-    ->withoutWrapper();
 ```
 
 ### `urgency($urgency)`
@@ -445,6 +423,75 @@ $notice = AdminNotices::show('my_notice', 'This is a notice')
 $notice = AdminNotices::show('my_notice', 'This is a notice')
     ->notDismissible();
 ```
+
+## Custom Notices
+
+Sometimes you want to display a notice, but you want to completely style it yourself. This is
+possible and pretty straightforward to do.
+
+Start by using the `custom` method on the notice. This will disable all standard visual and behavior
+
+```php
+use StellarWP\AdminNotices\AdminNotices;
+
+$notice = AdminNotices::show('my_notice_custom', 'This is a notice')
+    ->custom();
+```
+
+### `location()`
+
+***Default:*** 'standard'
+
+Sets the location in one of the standard WordPress notice locations. By default, the notice will be
+displayed in the standard location.
+
+Parameters:
+
+1. `string $location` - The location to display the notice. Can be 'standard', 'above_header', '
+   below_header', or 'inline'. Note that 'standard' and 'below_header' are the same location.
+
+```php
+use StellarWP\AdminNotices\AdminNotices;
+
+// Display the notice above the header
+$notice = AdminNotices::show('my_notice_custom', 'This is a notice')
+    ->custom()
+    ->location('above_header');
+```
+
+### Dismissing
+
+The `dismissible` method is not available for custom notices. If you want to add a dismiss button,
+you will need to do so manually. Fortunately, there is a simple way to do this.
+
+```php
+use StellarWP\AdminNotices\AdminNotices;
+use StellarWP\AdminNotices\AdminNotice;
+use \StellarWP\AdminNotices\DataTransferObjects\NoticeElementProperties;
+
+$renderCallback = function (AdminNotice $notice, NoticeElementProperties $elements) {
+    return "
+        <div>
+            <p>This is a custom notice</p>
+            <button type='button' {$elements->closeAttributes()}>
+                <span class='screen-reader-text'>Dismiss this notice.</span>
+            </button>
+        </div>
+    ";
+};
+
+AdminNotices::show('my_notice', $renderCallback)
+    ->custom();
+```
+
+The [$elements](src/DataTransferObjects/NoticeElementProperties.php) object provides a
+`customCloserAttributes` method that returns the necessary attributes to be place on the dismiss
+button. This method will add the necessary attributes to dismiss the notice when clicked. This will
+permanently dismiss the notice, and fade out the notice, similar to the standard WordPress
+dismissible notices.
+
+If you want the notice to be marked as dismissed, but not fade out, you can pass "clear" to the
+`customerCloserAttributes` method: e.g. `$elements->customCloserAttributes('clear')`.
 
 ## Resetting dismissed notices
 

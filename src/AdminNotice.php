@@ -9,6 +9,7 @@ use DateTimeInterface;
 use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
+use StellarWP\AdminNotices\ValueObjects\NoticeLocation;
 use StellarWP\AdminNotices\ValueObjects\NoticeUrgency;
 use StellarWP\AdminNotices\ValueObjects\ScreenCondition;
 use StellarWP\AdminNotices\ValueObjects\UserCapability;
@@ -66,9 +67,9 @@ class AdminNotice
     protected $alternateStyles = false;
 
     /**
-     * @var bool
+     * @var bool Indicates that the notice is customized and not the standard WordPress notice
      */
-    protected $withWrapper = true;
+    protected $custom = false;
 
     /**
      * @var bool
@@ -76,9 +77,9 @@ class AdminNotice
     protected $dismissible = false;
 
     /**
-     * @var bool
+     * @var NoticeLocation|null
      */
-    protected $inline = false;
+    protected $location;
 
     /**
      * @since 1.0.0
@@ -94,6 +95,7 @@ class AdminNotice
         $this->id = $id;
         $this->renderTextOrCallback = $renderTextOrCallback;
         $this->urgency = NoticeUrgency::info();
+        $this->location = NoticeLocation::standard();
     }
 
     /**
@@ -317,62 +319,55 @@ class AdminNotice
         return $this->alternateStyles;
     }
 
-    /**
-     * Sets the notice to display without the standard WordPress wrapper
-     *
-     * @since 1.0.0
-     */
-    public function withWrapper(bool $withWrapper = true): self
+    public function custom(bool $custom = true): self
     {
-        $this->withWrapper = $withWrapper;
+        $this->custom = $custom;
 
         return $this;
     }
 
-    /**
-     * Sets the notice to display without the standard WordPress wrapper
-     *
-     * @since 1.0.0
-     */
-    public function withoutWrapper(): self
+    public function standard(): self
     {
-        $this->withWrapper = false;
+        $this->custom = false;
 
         return $this;
-    }
-
-    /**
-     * Returns whether the notice is inline
-     *
-     * @since 1.2.0
-     */
-    public function isInline(): bool
-    {
-        return $this->inline;
     }
 
     /**
      * Sets the notice to be inline
      *
+     * @unreleased removed parameter in favor of new location parameter
      * @since 1.2.0
      */
-    public function inline(bool $inline = true): self
+    public function inline(): self
     {
-        $this->inline = $inline;
+        $this->location = NoticeLocation::inline();
 
         return $this;
     }
 
     /**
-     * Sets the notice to be not inline
+     * Prevents the notice from being moved from the place it's rendered
      *
-     * @since 1.2.0
+     * @unreleased
      */
-    public function notInline(): self
+    public function inPlace(): self
     {
-        $this->inline = false;
+        $this->location = null;
 
         return $this;
+    }
+
+    public function location($location): self
+    {
+        $this->location = $location instanceof NoticeLocation ? $location : new NoticeLocation($location);
+
+        return $this;
+    }
+
+    public function getLocation(): ?NoticeLocation
+    {
+        return $this->location;
     }
 
     /**
@@ -509,14 +504,9 @@ class AdminNotice
         return $this->urgency;
     }
 
-    /**
-     * Returns whether the notice should be displayed with the standard WordPress wrapper
-     *
-     * @since 1.0.0
-     */
-    public function usesWrapper(): bool
+    public function isCustom(): bool
     {
-        return $this->withWrapper;
+        return $this->custom;
     }
 
     /**

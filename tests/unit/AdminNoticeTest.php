@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use InvalidArgumentException;
 use StellarWP\AdminNotices\AdminNotice;
 use StellarWP\AdminNotices\Tests\Support\Helper\TestCase;
+use StellarWP\AdminNotices\ValueObjects\NoticeLocation;
 use StellarWP\AdminNotices\ValueObjects\NoticeUrgency;
 use StellarWP\AdminNotices\ValueObjects\ScreenCondition;
 use StellarWP\AdminNotices\ValueObjects\UserCapability;
@@ -219,64 +220,6 @@ class AdminNoticeTest extends TestCase
     }
 
     /**
-     * @covers ::withWrapper
-     * @covers ::withoutWrapper
-     * @covers ::usesWrapper
-     */
-    public function testWithWrapper(): void
-    {
-        // Defaults to true
-        $notice = new AdminNotice('test_id', 'test');
-        $this->assertTrue($notice->usesWrapper());
-
-        // Method can be set to false
-        $self = $notice->withWrapper(false);
-        $this->assertFalse($notice->usesWrapper());
-        $this->assertSame($notice, $self);
-
-        // Method can be explicitly set to true
-        $notice->withWrapper(true);
-        $this->assertTrue($notice->usesWrapper());
-
-        // withoutWrapper is an alias for withWrapper(false)
-        $self = $notice->withoutWrapper();
-        $this->assertFalse($notice->usesWrapper());
-        $this->assertSame($notice, $self);
-    }
-
-    /**
-     * @covers ::inline
-     * @covers ::notInline
-     * @covers ::isInline
-     *
-     * @since 1.2.0
-     */
-    public function testInline(): void
-    {
-        // Defaults to false
-        $notice = new AdminNotice('test_id', 'test');
-        $this->assertFalse($notice->isInline());
-
-        // Method defaults to true
-        $self = $notice->inline();
-        $this->assertTrue($notice->isInline());
-        $this->assertSame($notice, $self);
-
-        // Method can be explicitly set to false
-        $notice->inline(false);
-        $this->assertFalse($notice->isInline());
-
-        // Method can be set to true
-        $notice->inline(true);
-        $this->assertTrue($notice->isInline());
-
-        // notInline is an alias for inline(false)
-        $self = $notice->notInline();
-        $this->assertFalse($notice->isInline());
-        $this->assertSame($notice, $self);
-    }
-
-    /**
      * @covers ::dismissible
      * @covers ::notDismissible
      * @covers ::isDismissible
@@ -447,6 +390,48 @@ class AdminNoticeTest extends TestCase
         // standardStyles is an alias for alternateStyles(false)
         $self = $notice->standardStyles();
         $this->assertFalse($notice->usesAlternateStyles());
+        $this->assertSame($notice, $self);
+    }
+
+    /**
+     * @covers ::custom
+     * @covers ::isCustom
+     *
+     * @unreleased
+     */
+    public function testCustom(): void
+    {
+        $notice = new AdminNotice('test_id', 'test');
+
+        // Defaults to false
+        $this->assertFalse($notice->isCustom());
+
+        // Method can be set to true
+        $self = $notice->custom();
+        $this->assertTrue($notice->isCustom());
+        $this->assertSame($notice, $self);
+
+        // Method can be explicitly set to false
+        $notice->custom(false);
+        $this->assertFalse($notice->isCustom());
+    }
+
+    /**
+     * @covers ::location
+     * @covers ::getLocation
+     *
+     * @unreleased
+     */
+    public function testLocation(): void
+    {
+        $notice = new AdminNotice('test_id', 'test');
+
+        // Defaults to standard
+        $this->assertTrue($notice->getLocation()->isStandard());
+
+        // Returns the location
+        $self = $notice->location(NoticeLocation::inline());
+        $this->assertTrue($notice->getLocation()->isInline());
         $this->assertSame($notice, $self);
     }
 }

@@ -58,7 +58,7 @@ class DisplayNoticesInAdminTest extends TestCase
         $notice1 = $this->getSimpleMockNotice('foo');
         $notice2 = $this->getSimpleMockNotice('bar');
 
-        $this->expectOutputString('foobar');
+        $this->expectOutputString($this->getSimpleNoticeOutput('foo') . $this->getSimpleNoticeOutput('bar'));
         $displayNoticesInAdmin($notice1, $notice2);
     }
 
@@ -73,7 +73,7 @@ class DisplayNoticesInAdminTest extends TestCase
         $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
 
         if ($shouldPass) {
-            $this->expectOutputString('foo');
+            $this->expectNoticeInOutput('foo');
         } else {
             $this->expectOutputString('');
         }
@@ -111,7 +111,7 @@ class DisplayNoticesInAdminTest extends TestCase
         $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
 
         if ($shouldPass) {
-            $this->expectOutputString('foo');
+            $this->expectNoticeInOutput('foo');
         } else {
             $this->expectOutputString('');
         }
@@ -152,7 +152,7 @@ class DisplayNoticesInAdminTest extends TestCase
         $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
 
         if ($shouldPass) {
-            $this->expectOutputString('foo');
+            $this->expectNoticeInOutput('foo');
         } else {
             $this->expectOutputString('');
         }
@@ -198,7 +198,7 @@ class DisplayNoticesInAdminTest extends TestCase
         $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
         $notice = $this->getSimpleMockNotice('foo');
 
-        $this->expectOutputString('foo');
+        $this->expectNoticeInOutput('foo');
         $displayNoticesInAdmin($notice);
     }
 
@@ -209,7 +209,7 @@ class DisplayNoticesInAdminTest extends TestCase
         $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
         $notice = $this->getSimpleMockNotice('foo')->on('~Dashboard~i'); // check regex flags, too
 
-        $this->expectOutputString('foo');
+        $this->expectNoticeInOutput('foo');
         $displayNoticesInAdmin($notice);
     }
 
@@ -220,7 +220,7 @@ class DisplayNoticesInAdminTest extends TestCase
         $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
         $notice = $this->getSimpleMockNotice('foo')->on('dashboard');
 
-        $this->expectOutputString('foo');
+        $this->expectNoticeInOutput('foo');
         $displayNoticesInAdmin($notice);
     }
 
@@ -228,14 +228,30 @@ class DisplayNoticesInAdminTest extends TestCase
     {
         $_SERVER['REQUEST_URI'] = 'http://example.com/wp-admin/dashboard.php';
 
-        $this->set_fn_return('get_current_screen', (object)['base' => 'dashboard']);
+        $this->setFunctionReturn('get_current_screen', (object)['base' => 'dashboard']);
 
         // mock get_current_screen() global function
         $displayNoticesInAdmin = new DisplayNoticesInAdmin('namespace');
         $notice = $this->getSimpleMockNotice('foo')->on(['base' => 'dashboard']);
 
-        $this->expectOutputString('foo');
+        $this->expectNoticeInOutput('foo');
         $displayNoticesInAdmin($notice);
+    }
+
+    /**
+     * @unreleased
+     */
+    public function expectNoticeInOutput(string $expected): void
+    {
+        $this->expectOutputString($this->getSimpleNoticeOutput($expected));
+    }
+
+    /**
+     * @unreleased
+     */
+    private function getSimpleNoticeOutput(string $content): string
+    {
+        return "<div class='notice notice-info' data-stellarwp-namespace-notice-id='test_id'>$content</div>";
     }
 
     /**
@@ -246,7 +262,6 @@ class DisplayNoticesInAdminTest extends TestCase
     private function getSimpleMockNotice($output): AdminNotice
     {
         return (new AdminNotice('test_id', $output))
-            ->withoutWrapper()
             ->withoutAutoParagraph();
     }
 }
