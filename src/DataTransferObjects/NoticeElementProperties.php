@@ -10,6 +10,9 @@ use StellarWP\AdminNotices\AdminNotice;
 
 class NoticeElementProperties
 {
+    private const CLOSE_BEHAVIOR_HIDE = 'hide';
+    private const CLOSE_BEHAVIOR_MARK_DISMISSED = 'mark-dismissed';
+
     /**
      * @var string custom namespace for the library instance
      */
@@ -53,11 +56,11 @@ class NoticeElementProperties
     /**
      * @unreleased
      *
-     * @param 'hide'|'clear' $behavior
+     * @param 'hide'|'mark-dismissed' $behavior
      */
-    public function customCloseBehaviorAttribute(string $behavior = 'hide'): string
+    public function customCloseBehaviorAttribute(string $behavior = self::CLOSE_BEHAVIOR_HIDE): string
     {
-        if (!in_array($behavior, ['hide', 'clear'], true)) {
+        if (!$this->behaviorIsValid($behavior)) {
             throw new InvalidArgumentException('Invalid behavior for custom closer attribute.');
         }
 
@@ -67,14 +70,22 @@ class NoticeElementProperties
     /**
      * @unreleased
      *
-     * @param 'hide'|'clear' $behavior
+     * @param 'hide'|'mark-dismissed' $behavior
      */
-    public function customCloserAttributes(string $behavior = 'hide'): string
+    public function closeAttributes(string $behavior = self::CLOSE_BEHAVIOR_HIDE): string
     {
-        if (!in_array($behavior, ['hide', 'clear'], true)) {
+        if (!$this->behaviorIsValid($behavior)) {
             throw new InvalidArgumentException('Invalid behavior for custom closer attribute.');
         }
 
         return "$this->customCloserAttribute {$this->customCloseBehaviorAttribute($behavior)}";
+    }
+
+    /**
+     * @unreleased
+     */
+    private function behaviorIsValid(string $behavior): bool
+    {
+        return in_array($behavior, [self::CLOSE_BEHAVIOR_HIDE, self::CLOSE_BEHAVIOR_MARK_DISMISSED], true);
     }
 }

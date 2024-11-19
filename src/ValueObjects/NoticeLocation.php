@@ -9,6 +9,10 @@ use InvalidArgumentException;
 
 class NoticeLocation
 {
+    private const ABOVE_HEADER = 'above_header';
+    private const BELOW_HEADER = 'below_header';
+    private const INLINE = 'inline';
+
     /**
      * @var string
      */
@@ -19,7 +23,7 @@ class NoticeLocation
      */
     public static function aboveHeader(): self
     {
-        return new self('above_header');
+        return new self(self::ABOVE_HEADER);
     }
 
     /**
@@ -37,7 +41,7 @@ class NoticeLocation
      */
     public static function belowHeader(): self
     {
-        return new self('below_header');
+        return new self(self::BELOW_HEADER);
     }
 
     /**
@@ -45,7 +49,7 @@ class NoticeLocation
      */
     public static function inline(): self
     {
-        return new self('inline');
+        return new self(self::INLINE);
     }
 
     /**
@@ -71,7 +75,7 @@ class NoticeLocation
      */
     public function isAboveHeader(): bool
     {
-        return $this->location === 'above_header';
+        return $this->location === self::ABOVE_HEADER;
     }
 
     /**
@@ -79,7 +83,7 @@ class NoticeLocation
      */
     public function isBelowHeader(): bool
     {
-        return $this->location === 'below_header';
+        return $this->location === self::BELOW_HEADER;
     }
 
     /**
@@ -97,7 +101,7 @@ class NoticeLocation
      */
     public function isInline(): bool
     {
-        return $this->location === 'inline';
+        return $this->location === self::INLINE;
     }
 
     /**
@@ -124,9 +128,9 @@ class NoticeLocation
     private function validateLocation(string $location)
     {
         $validLocations = [
-            'above_header',
-            'below_header',
-            'inline',
+            self::ABOVE_HEADER,
+            self::BELOW_HEADER,
+            self::INLINE,
         ];
 
         if (!in_array($location, $validLocations, true)) {
