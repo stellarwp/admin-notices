@@ -67,22 +67,6 @@ class DisplayNoticesInAdminTest extends TestCase
     }
 
     /**
-     * @unreleased
-     */
-    public function expectNoticeInOutput(string $expected): void
-    {
-        $this->expectOutputString($this->getSimpleNoticeOutput($expected));
-    }
-
-    /**
-     * @unreleased
-     */
-    private function getSimpleNoticeOutput(string $content): string
-    {
-        return "<div class='notice notice-info' data-stellarwp-namespace-notice-id='test_id'>$content</div>";
-    }
-
-    /**
      * Produces a simple mock with predictable output.
      *
      * @since 1.0.0
