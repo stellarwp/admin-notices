@@ -7,6 +7,7 @@ namespace StellarWP\AdminNotices;
 use Psr\Container\ContainerInterface;
 use RuntimeException;
 use StellarWP\AdminNotices\Actions\DisplayNoticesInAdmin;
+use StellarWP\AdminNotices\Actions\EnqueueScriptsAndStyles;
 use StellarWP\AdminNotices\Contracts\NotificationsRegistrarInterface;
 
 class AdminNotices
@@ -204,25 +205,15 @@ class AdminNotices
         $handle = "$namespace-admin-notices";
         $version = filemtime(__DIR__ . '/resources/admin-notices.js');
 
-        add_filter('script_loader_tag', static function ($tag, $tagHandle) use ($handle, $namespace) {
-            if ($handle !== $tagHandle) {
-                return $tag;
-            }
-
-            $tag = str_replace(' src', ' defer src', $tag);
-
-            $replacement = "<script data-stellarwp-namespace='$namespace'";
-
-            return str_replace('<script', $replacement, $tag);
-        }, 10, 2);
-
         wp_enqueue_script(
             $handle,
             self::$packageUrl . '/src/resources/admin-notices.js',
             ['jquery', 'wp-data', 'wp-preferences'],
             $version,
-            true
+            ['strategy' => 'defer']
         );
+
+        (new EnqueueScriptsAndStyles($namespace))(...self::getNotices());
     }
 
     /**

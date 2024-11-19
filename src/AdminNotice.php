@@ -12,6 +12,8 @@ use InvalidArgumentException;
 use StellarWP\AdminNotices\ValueObjects\NoticeLocation;
 use StellarWP\AdminNotices\ValueObjects\NoticeUrgency;
 use StellarWP\AdminNotices\ValueObjects\ScreenCondition;
+use StellarWP\AdminNotices\ValueObjects\Script;
+use StellarWP\AdminNotices\ValueObjects\Style;
 use StellarWP\AdminNotices\ValueObjects\UserCapability;
 
 class AdminNotice
@@ -80,6 +82,16 @@ class AdminNotice
      * @var NoticeLocation|null
      */
     protected $location;
+
+    /**
+     * @var Script
+     */
+    protected $scriptToEnqueue;
+
+    /**
+     * @var Style
+     */
+    protected $styleToEnqueue;
 
     /**
      * @since 1.0.0
@@ -402,6 +414,54 @@ class AdminNotice
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @unreleased
+     */
+    public function enqueueScript(
+        string $source,
+        array $dependencies = [],
+        string $version = null,
+        array $args = null
+    ): self {
+        if ($args === null) {
+            $args = ['strategy' => 'defer'];
+        }
+
+        $this->scriptToEnqueue = new Script($source, $dependencies, $version, $args);
+
+        return $this;
+    }
+
+    /**
+     * @unreleased
+     */
+    public function getScriptToEnqueue(): ?Script
+    {
+        return $this->scriptToEnqueue;
+    }
+
+    /**
+     * @unreleased
+     */
+    public function enqueueStyle(
+        string $source,
+        array $dependencies = [],
+        string $version = null,
+        string $media = 'all'
+    ): self {
+        $this->styleToEnqueue = new Style($source, $dependencies, $version, $media);
+
+        return $this;
+    }
+
+    /**
+     * @unreleased
+     */
+    public function getStyleToEnqueue(): ?Style
+    {
+        return $this->styleToEnqueue;
     }
 
     /**
