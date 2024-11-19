@@ -69,7 +69,7 @@ class NoticeElementProperties
      *
      * @param 'hide'|'clear' $behavior
      */
-    public function customCloserAttributes(string $behavior = 'hide'): string
+    public function closeAttributes(string $behavior = 'hide'): string
     {
         if (!in_array($behavior, ['hide', 'clear'], true)) {
             throw new InvalidArgumentException('Invalid behavior for custom closer attribute.');

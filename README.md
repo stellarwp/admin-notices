@@ -473,7 +473,7 @@ $renderCallback = function (AdminNotice $notice, NoticeElementProperties $elemen
     return "
         <div>
             <p>This is a custom notice</p>
-            <button type='button' {$elements->customCloserAttributes()}>
+            <button type='button' {$elements->closeAttributes()}>
                 <span class='screen-reader-text'>Dismiss this notice.</span>
             </button>
         </div>
