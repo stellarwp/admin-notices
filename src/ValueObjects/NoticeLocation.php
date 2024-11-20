@@ -19,7 +19,7 @@ class NoticeLocation
     private $location;
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public static function aboveHeader(): self
     {
@@ -29,7 +29,7 @@ class NoticeLocation
     /**
      * An alias of aboveHeader(), as this is the standard WordPress location for admin notices.
      *
-     * @unreleased
+     * @since 2.0.0
      */
     public static function standard(): self
     {
@@ -37,7 +37,7 @@ class NoticeLocation
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public static function belowHeader(): self
     {
@@ -45,7 +45,7 @@ class NoticeLocation
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public static function inline(): self
     {
@@ -53,7 +53,7 @@ class NoticeLocation
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function __construct(string $location)
     {
@@ -63,7 +63,7 @@ class NoticeLocation
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function __toString()
     {
@@ -71,7 +71,7 @@ class NoticeLocation
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function isAboveHeader(): bool
     {
@@ -79,7 +79,7 @@ class NoticeLocation
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function isBelowHeader(): bool
     {
@@ -89,7 +89,7 @@ class NoticeLocation
     /**
      * An alias of isAboveHeader(), as this is the standard WordPress location for admin notices.
      *
-     * @unreleased
+     * @since 2.0.0
      */
     public function isStandard(): bool
     {
@@ -97,7 +97,7 @@ class NoticeLocation
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function isInline(): bool
     {
@@ -105,7 +105,7 @@ class NoticeLocation
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      *
      * @param string|self $location
      */
@@ -123,7 +123,7 @@ class NoticeLocation
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     private function validateLocation(string $location)
     {

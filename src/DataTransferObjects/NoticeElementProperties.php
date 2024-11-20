@@ -39,7 +39,7 @@ class NoticeElementProperties
     public $customWrapperAttributes;
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function __construct(AdminNotice $notice, string $namespace)
     {
@@ -54,7 +54,7 @@ class NoticeElementProperties
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      *
      * @param 'hide'|'mark-dismissed' $behavior
      */
@@ -68,7 +68,7 @@ class NoticeElementProperties
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      *
      * @param 'hide'|'mark-dismissed' $behavior
      */
@@ -82,7 +82,7 @@ class NoticeElementProperties
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     private function behaviorIsValid(string $behavior): bool
     {

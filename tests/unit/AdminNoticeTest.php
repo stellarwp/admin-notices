@@ -397,7 +397,7 @@ class AdminNoticeTest extends TestCase
      * @covers ::custom
      * @covers ::isCustom
      *
-     * @unreleased
+     * @since 2.0.0
      */
     public function testCustom(): void
     {
@@ -420,7 +420,7 @@ class AdminNoticeTest extends TestCase
      * @covers ::location
      * @covers ::getLocation
      *
-     * @unreleased
+     * @since 2.0.0
      */
     public function testLocation(): void
     {

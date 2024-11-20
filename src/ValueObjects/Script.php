@@ -8,7 +8,7 @@ namespace StellarWP\AdminNotices\ValueObjects;
 /**
  * Represents a script that can be enqueued with WordPress
  *
- * @unreleased
+ * @since 2.0.0
  */
 class Script
 {
@@ -33,7 +33,7 @@ class Script
     private $args;
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function __construct(
         string $source,
@@ -48,7 +48,7 @@ class Script
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function enqueue(string $handle): void
     {

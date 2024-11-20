@@ -348,7 +348,7 @@ class AdminNotice
     /**
      * Sets the notice to be inline
      *
-     * @unreleased removed parameter in favor of new location parameter
+     * @since 2.0.0 removed parameter in favor of new location parameter
      * @since 1.2.0
      */
     public function inline(): self
@@ -361,7 +361,7 @@ class AdminNotice
     /**
      * Prevents the notice from being moved from the place it's rendered
      *
-     * @unreleased
+     * @since 2.0.0
      */
     public function inPlace(): self
     {
@@ -417,7 +417,7 @@ class AdminNotice
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function enqueueScript(
         string $source,
@@ -435,7 +435,7 @@ class AdminNotice
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function getScriptToEnqueue(): ?Script
     {
@@ -443,7 +443,7 @@ class AdminNotice
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function enqueueStylesheet(
         string $source,
@@ -457,7 +457,7 @@ class AdminNotice
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function getStyleToEnqueue(): ?Style
     {

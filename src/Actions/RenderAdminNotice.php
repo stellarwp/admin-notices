@@ -23,7 +23,7 @@ class RenderAdminNotice
     /**
      * Renders the admin notice
      *
-     * @unreleased custom notices have a completely different render flow
+     * @since 2.0.0 custom notices have a completely different render flow
      * @since 1.1.0 added namespacing and notice is passed to the __invoke method
      * @since 1.0.0
      */
@@ -52,7 +52,7 @@ class RenderAdminNotice
     /**
      * Generates the classes for the standard WordPress notice wrapper.
      *
-     * @unreleased notice is assumed to be standard only
+     * @since 2.0.0 notice is assumed to be standard only
      * @since 1.1.0 notice is passed instead of accessed as a property
      * @since 1.0.0
      */
@@ -81,7 +81,7 @@ class RenderAdminNotice
     /**
      * Apply the needed custom attributes to the content.
      *
-     * @unreleased
+     * @since 2.0.0
      */
     private function applyCustomAttributesToContent(
         string $content,

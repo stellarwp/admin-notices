@@ -17,7 +17,7 @@ class NoticeLocationTest extends TestCase
     /**
      * @covers ::aboveHeader
      *
-     * @unreleased
+     * @since 2.0.0
      */
     public function testAboveHeader(): void
     {
@@ -29,7 +29,7 @@ class NoticeLocationTest extends TestCase
     /**
      * @covers ::standard
      *
-     * @unreleased
+     * @since 2.0.0
      */
     public function testStandard(): void
     {
@@ -41,7 +41,7 @@ class NoticeLocationTest extends TestCase
     /**
      * @covers ::belowHeader
      *
-     * @unreleased
+     * @since 2.0.0
      */
     public function testBelowHeader(): void
     {
@@ -53,7 +53,7 @@ class NoticeLocationTest extends TestCase
     /**
      * @covers ::inline
      *
-     * @unreleased
+     * @since 2.0.0
      */
     public function testInline(): void
     {
@@ -65,7 +65,7 @@ class NoticeLocationTest extends TestCase
     /**
      * @covers ::__toString
      *
-     * @unreleased
+     * @since 2.0.0
      */
     public function testToString(): void
     {
@@ -89,7 +89,7 @@ class NoticeLocationTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      *
      * @return array<string, array{0: string, 1: bool}>
      */

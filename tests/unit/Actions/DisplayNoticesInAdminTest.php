@@ -59,7 +59,7 @@ class DisplayNoticesInAdminTest extends TestCase
     }
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     private function getSimpleNoticeOutput(string $content): string
     {

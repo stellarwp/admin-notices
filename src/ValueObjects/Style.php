@@ -8,7 +8,7 @@ namespace StellarWP\AdminNotices\ValueObjects;
 /**
  * Represents a stylesheet to be enqueued in WordPress
  *
- * @unreleased
+ * @since 2.0.0
  */
 class Style
 {
@@ -33,7 +33,7 @@ class Style
     private $media;
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function __construct(
         string $source,
@@ -50,7 +50,7 @@ class Style
     /**
      * Enqueues the stylesheet with WordPress
      *
-     * @unreleased
+     * @since 2.0.0
      */
     public function enqueue(string $handle): void
     {

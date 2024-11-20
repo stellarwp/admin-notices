@@ -52,7 +52,7 @@ class AdminNotices
     /**
      * Renders the notice in the current location while still honoring visibility conditions
      *
-     * @unreleased mark notice as inPlace to prevent movement; return null if not being rendered
+     * @since 2.0.0 mark notice as inPlace to prevent movement; return null if not being rendered
      * @since 1.0.0
      *
      * @param bool $echo whether to echo or return the notice

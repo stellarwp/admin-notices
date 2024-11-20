@@ -11,14 +11,14 @@ use StellarWP\AdminNotices\Traits\HasNamespace;
 /**
  * Checks the given admin notices and enqueues their scripts and styles if they exist and should be rendered.
  *
- * @unreleased
+ * @since 2.0.0
  */
 class EnqueueNoticesScriptsAndStyles
 {
     use HasNamespace;
 
     /**
-     * @unreleased
+     * @since 2.0.0
      */
     public function __invoke(AdminNotice ...$notices)
     {
