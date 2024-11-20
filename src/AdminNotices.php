@@ -202,8 +202,19 @@ class AdminNotices
     public static function enqueueScripts(): void
     {
         $namespace = self::$namespace;
-        $handle = "$namespace-admin-notices";
+        $handle = "stellarwp-$namespace-admin-notices";
         $version = filemtime(__DIR__ . '/resources/admin-notices.js');
+
+        // Add the namespace to the script tag
+        add_filter('script_loader_tag', static function ($tag, $tagHandle) use ($handle, $namespace) {
+            if ($handle !== $tagHandle) {
+                return $tag;
+            }
+
+            $replacement = "<script data-stellarwp-namespace='$namespace'";
+
+            return str_replace('<script', $replacement, $tag);
+        }, 10, 2);
 
         wp_enqueue_script(
             $handle,
