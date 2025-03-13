@@ -50,7 +50,7 @@ class ScreenCondition
 
         if ($wpScreenProperties === null) {
             if (! class_exists('WP_Screen')) {
-                require_once ABSPATH . 'wp-admin/includes/screen.php';
+                require_once ABSPATH . 'wp-admin/includes/class-wp-screen.php';
             }
 
             $wpScreenProperties = get_class_vars('WP_Screen');
