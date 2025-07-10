@@ -68,6 +68,7 @@
         const location = $notice.data(locationAttribute);
 
         if (location === 'below_header') {
+        // Place after the page action element (e.g., "Add Plugin" on Plugins page) if it exists, otherwise after <h1>.
         const $pageTitleAction = $('a.page-title-action');
         if ($pageTitleAction.length) {
             $notice.insertAfter($pageTitleAction);
