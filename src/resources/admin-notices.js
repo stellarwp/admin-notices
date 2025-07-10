@@ -68,7 +68,15 @@
         const location = $notice.data(locationAttribute);
 
         if (location === 'below_header') {
+        // Place notice after the page action element (e.g., "Add Plugin" on the Plugins page) if it exists; 
+        // otherwise, insert it after the <h1>. On some pages, placing the notice directly after the <h1> 
+        // can cause it to appear between the header and its action button, leading to layout issues.
+        const $pageTitleAction = $('a.page-title-action');
+        if ($pageTitleAction.length) {
+            $notice.insertAfter($pageTitleAction);
+        } else {
             $notice.insertAfter('h1');
+        }
         } else if (location === 'above_header') {
             $notice.insertBefore('h1');
         } else if (location === 'inline') {
