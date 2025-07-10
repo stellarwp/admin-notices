@@ -68,7 +68,12 @@
         const location = $notice.data(locationAttribute);
 
         if (location === 'below_header') {
+        const $pageTitleAction = $('a.page-title-action');
+        if ($pageTitleAction.length) {
+            $notice.insertAfter($pageTitleAction);
+        } else {
             $notice.insertAfter('h1');
+        }
         } else if (location === 'above_header') {
             $notice.insertBefore('h1');
         } else if (location === 'inline') {
